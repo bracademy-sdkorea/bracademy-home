@@ -1917,7 +1917,7 @@ if (window.BR_CONFIG?.supabaseUrl && window.BR_CONFIG?.supabasePublishableKey) {
   }
   function practiceHTML() {
     return `<section class="section practice-section" id="practice"><div class="wrap">
-      ${sectionHead('04','INSIDE BR ACADEMY','배움이 일어나는 현장', S.practice.text)}
+      ${sectionHead('04','INSIDE BR ACADEMY','배움의 현장', S.practice.text)}
       <div class="practice-grid">${S.practice.photos.map((p,i)=>`<figure class="practice-item">${shot(p.img,'교육현장 '+(i+1))}<figcaption><span>${pad(i+1)}</span>${esc(p.caption)}</figcaption></figure>`).join('')}</div>
     </div></section>`;
   }
@@ -1944,7 +1944,7 @@ if (window.BR_CONFIG?.supabaseUrl && window.BR_CONFIG?.supabasePublishableKey) {
 
   function peopleHTML() {
     const D=S.director;
-    return `<section class="section people-section" id="people"><div class="wrap">${sectionHead('06','THE PEOPLE BEHIND THE METHOD','지금도 현장에 있는 교육자들','매장을 운영하고 직접 고객을 관리하는 현직 원장들의 경험을 전합니다.')}
+    return `<section class="section people-section" id="people"><div class="wrap">${sectionHead('06','THE PEOPLE BEHIND THE METHOD','매장을 10년 이상 운영 중인 전문 강사','매장을 운영하고 직접 고객을 관리하는 현직 원장들의 경험을 전합니다.')}
       <div class="people-grid"><div class="people-photo">${shot(D.img,'김수진 대표원장 사진')}</div><div class="people-copy"><span class="eyebrow">FOUNDER & DIRECTOR</span><h3>${esc(D.name)}</h3><p>${esc(D.en)}</p><div class="people-titles">${D.titles.map(v=>`<span>${esc(v)}</span>`).join('')}</div>${(S.journal||[]).length?`<a class="journal-link" href="#/journal">매거진 칼럼 읽기 →</a>`:''}<div class="fm-creds"><span class="fm-label">주요 경력</span><ul>${D.creds.map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div></div></div>
       <div class="faculty-mini">${S.faculty.map(f=>`<article><div class="fm-head"><img class="fm-photo" src="${esc(f.img)}" alt="${esc(f.name)} 프로필" loading="lazy"><div><span class="eyebrow">PROFESSIONAL FACULTY</span><h4>${esc(f.name)}</h4><p>${esc(f.role)}</p></div></div><div class="fm-creds"><span class="fm-label">주요 경력</span><ul>${f.creds.slice(0,8).map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div></article>`).join('')}</div>
     </div></section>`;
