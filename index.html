@@ -491,6 +491,7 @@ body.jv-open{overflow:hidden}
 @media(max-width:900px){.social-grid{grid-template-columns:1fr;gap:30px}.social-copy h2{font-size:26px}.social-photos{gap:8px}}
 .social-dream{margin-top:64px;padding-top:56px;border-top:1px solid var(--line)}.social-dream h3{font:400 26px/1.4 var(--serif);margin:12px 0 16px}.social-dream .social-copy>p{margin-bottom:26px}.social-dream .social-copy>p b{font-weight:500;color:var(--ink)}.social-photos.two{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.social-photos.two .photo-frame{aspect-ratio:1/1}.social-photos figcaption{font-size:12px;color:var(--sub);padding-top:9px}
 @media(max-width:900px){.social-dream{margin-top:44px;padding-top:40px}.social-dream h3{font-size:22px}.social-photos.two{gap:8px}.social-photos figcaption{font-size:11px}}
+.jc-author{display:inline-block;margin-left:8px;padding:1px 7px;border:1px solid var(--line);font-size:11px;color:var(--accent);border-radius:20px;line-height:1.6}
 </style>
 </head>
 <body>
@@ -614,6 +615,8 @@ window.SITE = {
 {"id": "m-classkin-open", "type": "media", "cat": "media", "date": "", "mag": "INDUSTRY NEWS", "title": "스파비알 김수진 대표원장, 온라인 실무 양성 아카데미 '클래스킨' 오픈", "lead": "교육청 정식 허가 받은 온라인 에스테틱 아카데미 — 비기너부터 전문가 과정까지", "cover": "images/journal/m-classkin-open-cover.jpg", "pages": ["images/journal/m-classkin-open-1.jpg"]},
 {"id": "m-2610-spabr-ydp", "type": "media", "cat": "media", "date": "2026.10", "mag": "시그니처 매거진", "title": "SPA BR 영등포 — 펌피 컨투어링 밸런싱 케어", "lead": "피부와 두피를 함께 살피는 프리미엄 맞춤 에스테틱 & 헤드 스파", "cover": "images/journal/m-2610-spabr-ydp-cover.jpg", "pages": ["images/journal/m-2610-spabr-ydp-1.jpg"]},
 {"id": "a-2610-pumpee-edu", "type": "media", "cat": "acdrop", "date": "2026.10", "mag": "10월호", "title": "아크드롭, 펌피 컨투어링 케어 교육 진행", "lead": "비알 아카데미 출범 앞두고 전문가 실무 교육 본격화", "cover": "images/journal/a-2610-pumpee-edu-cover.jpg", "pages": ["images/journal/a-2610-pumpee-edu-1.jpg"]},
+{"id": "a-lee-glow-layering", "type": "column", "cat": "acdrop", "date": "2026", "mag": "", "author": "이정화 원장", "title": "아크드롭 3-STEP 글로우 레이어링 테라피", "lead": "수분을 쌓아 완성하는 3단계 글로우 레이어링", "cover": "images/journal/a-lee-glow-layering-cover.jpg", "pages": ["images/journal/a-lee-glow-layering-1.jpg"]},
+{"id": "m-2603-lee-shes-story", "type": "media", "cat": "media", "date": "2026.03", "mag": "She’s story", "author": "이정화 원장", "title": "피부 회복의 기준을 제시하는 스파비알 메디스킨라운지 이정화 원장의 철학", "lead": "경험에서 출발한 이정화 원장의 에스테틱 철학", "cover": "images/journal/m-2603-lee-shes-story-cover.jpg", "pages": ["images/journal/m-2603-lee-shes-story-1.jpg", "images/journal/m-2603-lee-shes-story-2.jpg", "images/journal/m-2603-lee-shes-story-3.jpg", "images/journal/m-2603-lee-shes-story-4.jpg"]},
 {"id": "a-2610-spick", "type": "media", "cat": "acdrop", "date": "2026.10", "mag": "시그니처 매거진", "title": "S' PICK — 티티알 카밍 드롭 세럼 & 카모줄렌 크림", "lead": "붉은 기와 오돌토돌한 피부 결을 위한 2단계 카밍 듀오", "cover": "images/journal/a-2610-spick-cover.jpg", "pages": ["images/journal/a-2610-spick-1.jpg", "images/journal/a-2610-spick-2.jpg"]},
 {"id": "a-2611-newest", "type": "media", "cat": "acdrop", "date": "2026.11", "mag": "시그니처 매거진", "title": "NOVEMBER NEWEST — 티티알 카밍 드롭 세럼", "lead": "뷰티 에디터가 찾은 이달의 에스테틱 화장품", "cover": "images/journal/a-2611-newest-cover.jpg", "pages": ["images/journal/a-2611-newest-1.jpg"]},
 {"id": "a-aftercare-expert", "type": "media", "cat": "acdrop", "date": "2026", "mag": "시그니처 매거진", "title": "아크드롭 애프터 케어 — 파크비알 청담 김수진 원장", "lead": "환절기 예민한 피부를 정돈하는 진정·보습 케어", "cover": "images/journal/a-aftercare-expert-cover.jpg", "pages": ["images/journal/a-aftercare-expert-1.jpg"]},
@@ -1956,9 +1959,9 @@ if (window.BR_CONFIG?.supabaseUrl && window.BR_CONFIG?.supabasePublishableKey) {
     const label={skin:'피부 과학',therapy:'테라피 · 해부학',body:'산전산후 · 바디',wellness:'웰니스 · 트렌드',acdrop:'AC DROP',media:'매장 소개'};
     const nCol=J.filter(j=>j.type==='column').length, nMed=J.length-nCol;
     return `<section class="section journal-section" id="journal" data-cat="all"><div class="wrap">
-      ${sectionHead('','BR JOURNAL','현장의 생각을 기록합니다','매거진 칼럼과 매체 기사로, 김수진 대표원장의 인사이트를 함께 공유합니다.')}
+      ${sectionHead('','BR JOURNAL','현장의 생각을 기록합니다','매거진 칼럼과 매체 기사로, 김수진 대표원장과 BR Academy 강사진의 인사이트를 함께 공유합니다.')}
       <div class="journal-filters" role="tablist">${cats.map(c=>`<button type="button" data-jcat="${c[0]}" class="${c[0]==='all'?'active':''}" onclick="brJournalFilter('${c[0]}',this)">${c[1]}</button>`).join('')}</div>
-      <div class="journal-grid">${J.map((j,i)=>`<button type="button" class="journal-card${i>=6?' j-extra':''}" data-jc="${esc(j.cat)}" onclick="brOpenJournal('${esc(j.id)}')"><span class="jc-cover"><img src="${esc(j.cover)}" alt="" loading="lazy"></span><span class="jc-meta"><em>${esc(label[j.cat]||'')}</em><span>${[j.date,j.mag].filter(Boolean).map(esc).join(' · ')}</span></span><strong>${esc(j.title)}</strong><span class="jc-lead">${esc(j.lead)}</span><span class="jc-more">지면 보기 →</span></button>`).join('')}</div>
+      <div class="journal-grid">${J.map((j,i)=>`<button type="button" class="journal-card${i>=6?' j-extra':''}" data-jc="${esc(j.cat)}" onclick="brOpenJournal('${esc(j.id)}')"><span class="jc-cover"><img src="${esc(j.cover)}" alt="" loading="lazy"></span><span class="jc-meta"><em>${esc(label[j.cat]||'')}</em><span>${[j.date,j.mag].filter(Boolean).map(esc).join(' · ')}</span>${j.author?`<span class="jc-author">${esc(j.author)}</span>`:''}</span><strong>${esc(j.title)}</strong><span class="jc-lead">${esc(j.lead)}</span><span class="jc-more">지면 보기 →</span></button>`).join('')}</div>
       <button type="button" class="journal-more" onclick="this.closest('.journal-section').classList.add('show-all');this.remove()">칼럼 전체 보기 (${J.length})</button>
     </div></section>`;
   }
