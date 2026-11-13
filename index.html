@@ -1814,7 +1814,7 @@ if (window.BR_CONFIG?.supabaseUrl && window.BR_CONFIG?.supabasePublishableKey) {
   // 메인 브랜드 트랙은 대표 교육 3개만. 파트너 과정은 데이터와 기존 주소를 유지.
   const primaryTracks = () => S.tracks.filter(t => t.showOnHomepage !== false);
   const scheduleTracks = () => S.tracks.filter(t => t.showOnHomepage !== false || allClasses().some(c => c.track === t.key));
-  const applyLink = (label, cls='btn primary', course='', classId='') => `<button type="button" class="${cls}" data-lead-course="${esc(course)}" data-lead-class="${esc(classId)}">${esc(label)} <span aria-hidden="true">↗</span></button>`;
+  const applyLink = (label, cls='btn primary', course='', classId='') => (CFG.supabaseUrl && CFG.privacyRetention) ? `<button type="button" class="${cls}" data-lead-course="${esc(course)}" data-lead-class="${esc(classId)}">${esc(label)} <span aria-hidden="true">↗</span></button>` : `<a class="${cls}" href="${esc(S.applyUrl)}" target="_blank" rel="noopener noreferrer">${esc(label)} <span aria-hidden="true">↗</span></a>`;
 
   const img = (src, alt, css='') => `<img src="${esc(src)}" alt="${esc(alt)}" class="photo ${css}" loading="lazy" onerror="this.classList.add('missing');this.parentElement.classList.add('empty-photo')">`;
   const shot = (src, label, css='') => `<div class="photo-frame ${css}" data-slot="${esc(label)}">${img(src,label)}</div>`;
