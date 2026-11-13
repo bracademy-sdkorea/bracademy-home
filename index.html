@@ -492,6 +492,7 @@ body.jv-open{overflow:hidden}
 .social-dream{margin-top:64px;padding-top:56px;border-top:1px solid var(--line)}.social-dream h3{font:400 26px/1.4 var(--serif);margin:12px 0 16px}.social-dream .social-copy>p{margin-bottom:26px}.social-dream .social-copy>p b{font-weight:500;color:var(--ink)}.social-photos.two{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.social-photos.two .photo-frame{aspect-ratio:1/1}.social-photos figcaption{font-size:12px;color:var(--sub);padding-top:9px}
 @media(max-width:900px){.social-dream{margin-top:44px;padding-top:40px}.social-dream h3{font-size:22px}.social-photos.two{gap:8px}.social-photos figcaption{font-size:11px}}
 .jc-author{display:inline-block;margin-left:8px;padding:1px 7px;border:1px solid var(--line);font-size:11px;color:var(--accent);border-radius:20px;line-height:1.6}
+.fm-journal{display:inline-block;margin-top:8px;font-size:12.5px}.journal-author-note{display:flex;align-items:center;gap:14px;margin:-6px 0 22px;font-size:13.5px;color:var(--sub)}.journal-author-note b{color:var(--ink);font-weight:500}.journal-author-note button{border:1px solid var(--line);background:transparent;padding:6px 12px;font:inherit;font-size:12px;cursor:pointer;color:var(--ink)}
 </style>
 </head>
 <body>
@@ -1949,7 +1950,7 @@ if (window.BR_CONFIG?.supabaseUrl && window.BR_CONFIG?.supabasePublishableKey) {
     const D=S.director;
     return `<section class="section people-section" id="people"><div class="wrap">${sectionHead('06','THE PEOPLE BEHIND THE METHOD','강사 소개','매장을 운영하고 직접 고객을 관리하는 현직 원장들의 경험을 전합니다.')}
       <div class="people-grid"><div class="people-photo">${shot(D.img,'김수진 대표원장 사진')}</div><div class="people-copy"><span class="eyebrow">FOUNDER & DIRECTOR</span><h3>${esc(D.name)}</h3><p>${esc(D.en)}</p><div class="people-titles">${D.titles.map(v=>`<span>${esc(v)}</span>`).join('')}</div>${(S.journal||[]).length?`<a class="journal-link" href="#/journal">매거진 칼럼 읽기 →</a>`:''}<div class="fm-creds"><span class="fm-label">주요 경력</span><ul>${D.creds.map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div></div></div>
-      <div class="faculty-mini">${S.faculty.map(f=>`<article><div class="fm-head"><img class="fm-photo" src="${esc(f.img)}" alt="${esc(f.name)} 프로필" loading="lazy"><div><span class="eyebrow">PROFESSIONAL FACULTY</span><h4>${esc(f.name)}</h4><p>${esc(f.role)}</p></div></div><div class="fm-creds"><span class="fm-label">주요 경력</span><ul>${f.creds.slice(0,8).map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div></article>`).join('')}</div>
+      <div class="faculty-mini">${S.faculty.map(f=>`<article><div class="fm-head"><img class="fm-photo" src="${esc(f.img)}" alt="${esc(f.name)} 프로필" loading="lazy"><div><span class="eyebrow">PROFESSIONAL FACULTY</span><h4>${esc(f.name)}</h4><p>${esc(f.role)}</p>${(S.journal||[]).some(j=>j.author===f.name)?`<a class="journal-link fm-journal" href="#/journal" onclick="event.preventDefault();brOpenAuthor('${esc(f.name)}')">매거진 칼럼 읽기 →</a>`:''}</div></div><div class="fm-creds"><span class="fm-label">주요 경력</span><ul>${f.creds.slice(0,8).map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div></article>`).join('')}</div>
     </div></section>`;
   }
   function journalHTML() {
@@ -1961,7 +1962,7 @@ if (window.BR_CONFIG?.supabaseUrl && window.BR_CONFIG?.supabasePublishableKey) {
     return `<section class="section journal-section" id="journal" data-cat="all"><div class="wrap">
       ${sectionHead('','BR JOURNAL','현장의 생각을 기록합니다','매거진 칼럼과 매체 기사로, 김수진 대표원장과 BR Academy 강사진의 인사이트를 함께 공유합니다.')}
       <div class="journal-filters" role="tablist">${cats.map(c=>`<button type="button" data-jcat="${c[0]}" class="${c[0]==='all'?'active':''}" onclick="brJournalFilter('${c[0]}',this)">${c[1]}</button>`).join('')}</div>
-      <div class="journal-grid">${J.map((j,i)=>`<button type="button" class="journal-card${i>=6?' j-extra':''}" data-jc="${esc(j.cat)}" onclick="brOpenJournal('${esc(j.id)}')"><span class="jc-cover"><img src="${esc(j.cover)}" alt="" loading="lazy"></span><span class="jc-meta"><em>${esc(label[j.cat]||'')}</em><span>${[j.date,j.mag].filter(Boolean).map(esc).join(' · ')}</span>${j.author?`<span class="jc-author">${esc(j.author)}</span>`:''}</span><strong>${esc(j.title)}</strong><span class="jc-lead">${esc(j.lead)}</span><span class="jc-more">지면 보기 →</span></button>`).join('')}</div>
+      <div class="journal-grid">${J.map((j,i)=>`<button type="button" class="journal-card${i>=6?' j-extra':''}" data-jc="${esc(j.cat)}" data-author="${esc(j.author||'')}" onclick="brOpenJournal('${esc(j.id)}')"><span class="jc-cover"><img src="${esc(j.cover)}" alt="" loading="lazy"></span><span class="jc-meta"><em>${esc(label[j.cat]||'')}</em><span>${[j.date,j.mag].filter(Boolean).map(esc).join(' · ')}</span>${j.author?`<span class="jc-author">${esc(j.author)}</span>`:''}</span><strong>${esc(j.title)}</strong><span class="jc-lead">${esc(j.lead)}</span><span class="jc-more">지면 보기 →</span></button>`).join('')}</div>
       <button type="button" class="journal-more" onclick="this.closest('.journal-section').classList.add('show-all');this.remove()">칼럼 전체 보기 (${J.length})</button>
     </div></section>`;
   }
@@ -2105,7 +2106,15 @@ if (window.BR_CONFIG?.supabaseUrl && window.BR_CONFIG?.supabasePublishableKey) {
     d.querySelector('small').textContent=j.date+' · '+j.mag+(j.type==='column'?' · 글 김수진':'');d.querySelector('h3').textContent=j.title;
     const p=d.querySelector('.jv-pages');p.innerHTML=j.pages.map((src,i)=>'<img src="'+src+'" alt="'+j.title.replace(/"/g,'')+' 지면 '+(i+1)+'" loading="'+(i<2?'eager':'lazy')+'">').join('')+'<p class="jv-note">'+j.mag+' 게재 지면</p>';p.scrollTop=0;
     d.classList.add('open');document.body.classList.add('jv-open');};
-  window.brJournalFilter=function(cat,btn){const sec=btn.closest('.journal-section');sec.querySelectorAll('.journal-filters button').forEach(b=>b.classList.toggle('active',b===btn));
+  window.brOpenAuthor=function(name){if(location.hash!=='#/journal')location.hash='#/journal';setTimeout(()=>brJournalAuthor(name),180);};
+  window.brJournalAuthor=function(name){const sec=document.querySelector('.journal-section');if(!sec)return;
+    sec.querySelectorAll('.journal-filters button').forEach(b=>b.classList.remove('active'));sec.classList.add('filtered');
+    let n=0;sec.querySelectorAll('.journal-card').forEach(c=>{const hit=c.dataset.author===name;c.classList.toggle('jhide',!hit);if(hit)n++;});
+    let note=sec.querySelector('.journal-author-note');if(!note){note=document.createElement('div');note.className='journal-author-note';sec.querySelector('.journal-filters').after(note);}
+    note.innerHTML='<span><b>'+name+'</b>의 칼럼 · 기사 '+n+'편</span><button type="button">전체 보기</button>';
+    note.querySelector('button').onclick=()=>{note.remove();brJournalFilter('all',sec.querySelector('.journal-filters button'));};
+    const h=document.getElementById('header');window.scrollTo({top:sec.getBoundingClientRect().top+window.scrollY-(h?h.offsetHeight:0)-10,behavior:'smooth'});};
+  window.brJournalFilter=function(cat,btn){const sec=btn.closest('.journal-section');sec.querySelector('.journal-author-note')?.remove();sec.querySelectorAll('.journal-filters button').forEach(b=>b.classList.toggle('active',b===btn));
     sec.classList.toggle('filtered',cat!=='all');sec.querySelectorAll('.journal-card').forEach(c=>c.classList.toggle('jhide',cat!=='all'&&c.dataset.jc!==cat));};
 })();
 </script>
