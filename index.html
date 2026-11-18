@@ -503,6 +503,8 @@ body.jv-open{overflow:hidden}
 .pp-store-info{padding:44px 48px}.pp-store-info h3{font:400 28px var(--serif);margin:10px 0 4px}.pp-area{font-size:13px;color:var(--muted)}.pp-desc{margin-top:18px;font-size:15px;line-height:1.85;color:var(--sub);max-width:640px}
 .pp-store-info dl{margin:24px 0 0;border-top:1px solid var(--line)}.pp-store-info dl div{display:grid;grid-template-columns:90px 1fr;padding:12px 0;border-bottom:1px solid var(--line);font-size:13.5px}.pp-store-info dt{color:var(--muted)}.pp-store-info dd{margin:0}
 .pp-links{display:flex;gap:22px;margin-top:22px}
+.pp-map{margin-top:4px;background:#e4ded5;height:380px}.pp-map iframe{display:block;width:100%;height:100%;border:0;filter:grayscale(.35)}
+@media (max-width:760px){.pp-map{height:300px}}
 .pp-others{margin-top:80px;border-top:1px solid var(--line);padding-top:26px}.pp-others>div{display:flex;gap:16px;flex-wrap:wrap}.pp-others a{display:flex;align-items:center;gap:12px;background:#fffdfa;padding:10px 20px 10px 10px;font-size:14px;color:var(--ink)}.pp-others img{width:46px;height:56px;object-fit:cover;object-position:center 20%}
 @media (max-width:900px){.pp-hero{grid-template-columns:1fr;gap:0;padding:0}.pp-photo .photo-frame{height:auto;aspect-ratio:4/4.4}.pp-intro{padding:28px 24px 32px}.pp-cols{grid-template-columns:1fr;gap:28px}.pp-cols>.pp-list{columns:1}.pp-journal{grid-template-columns:repeat(2,1fr)}.pp-store.has-photo{grid-template-columns:1fr}.pp-store-info{padding:28px 24px}.pp-block{margin-top:56px}.person-page{padding:30px 0 60px}}
 @media (max-width:1100px){.faculty-trio{grid-template-columns:1fr}}
@@ -630,9 +632,11 @@ window.SITE = {
       "kr": "파크비알",
       "area": "산전산후 전문스파",
       "desc": "임신 중 생리적 변화와 산후 회복 과정을 이해하는 산전·산후 전문 케어를 제공합니다.",
-      "address": "",
+      "address": "서울특별시 강남구 삼성로120길 30, 1층",
+      "mapQuery": "서울특별시 강남구 삼성로120길 30",
+      "directions": "지하철 7호선 청담역 4번 출구 도보 3분",
       "hours": "",
-      "phone": "",
+      "phone": "02-514-9782",
       "bookingUrl": "",
       "instagram": "",
       "mapUrl": "https://naver.me/FbOTULqQ",
@@ -1661,9 +1665,11 @@ window.SITE = {
         "kr": "스파비알 영등포점",
         "area": "서울 영등포구",
         "desc": "피부와 두피를 함께 살피는 프리미엄 맞춤 에스테틱 & 헤드 스파. 자극을 줄이고 회복력을 키우는 1:1 맞춤 관리를 진행합니다.",
-        "address": "",
+        "address": "서울특별시 영등포구 문래로 180, 상가 2층 201호",
+        "mapQuery": "서울특별시 영등포구 문래로 180",
+        "directions": "타임스퀘어 바로 옆 건물 (이마트 방면) · 건물 지하 무료주차",
         "hours": "",
-        "phone": "",
+        "phone": "02-6010-1255",
         "bookingUrl": "",
         "instagram": "",
         "mapUrl": "https://naver.me/F9NfjkKI",
@@ -1710,9 +1716,11 @@ window.SITE = {
         "kr": "스파비알 분당정자점",
         "area": "경기 성남시 분당구",
         "desc": "생활 습관까지 분석하는 1:1 맞춤 테라피와 문제성 피부 관리로 피부 본연의 힘을 되찾는 맞춤형 에스테틱을 제안합니다.",
-        "address": "",
+        "address": "경기도 성남시 분당구 성남대로331번길 3-3, 젤존타워3 6층 608호",
+        "mapQuery": "경기도 성남시 분당구 성남대로331번길 3-3",
+        "directions": "정자역 3번 출구 바로 앞 건물 · 건물 지하 무료주차",
         "hours": "",
-        "phone": "",
+        "phone": "031-718-1255",
         "bookingUrl": "",
         "instagram": "",
         "mapUrl": "https://naver.me/IGJ8IQzn",
@@ -2046,7 +2054,7 @@ if (window.BR_CONFIG?.supabaseUrl && window.BR_CONFIG?.supabasePublishableKey) {
     const st=p.store;
     const roleLines=isDir?(p.titles||[]):[p.role];
     const others=[S.director,...(S.faculty||[])].filter(x=>x&&x!==p);
-    const info=st?[['주소',st.address],['운영 시간',st.hours],['전화',st.phone]].filter(v=>v[1]):[];
+    const info=st?[['주소',st.address],['오시는 길',st.directions],['운영 시간',st.hours],['전화',st.phone]].filter(v=>v[1]):[];
     const links=st?[[st.bookingUrl,'예약하기'],[st.mapUrl,'네이버 지도 · 예약'],[st.instagram,'Instagram']].filter(v=>v[0]):[];
     return `<section class="person-page"><div class="wrap">
       <p class="crumb"><a href="#/people">강사 소개</a> &nbsp;/&nbsp; ${esc(p.name)}</p>
@@ -2065,7 +2073,8 @@ if (window.BR_CONFIG?.supabaseUrl && window.BR_CONFIG?.supabasePublishableKey) {
         <div class="pp-store${(st.photos||[]).length?' has-photo':''}">${(st.photos||[]).length?`<div class="pp-store-photos">${st.photos.map(src=>shot(src,st.kr+' 매장 사진')).join('')}</div>`:''}
         <div class="pp-store-info"><span class="eyebrow">${esc(st.name)}</span><h3>${esc(st.kr)}</h3><p class="pp-area">${esc(st.area||'')}</p><p class="pp-desc">${esc(st.desc||'')}</p>
         ${info.length?`<dl>${info.map(v=>`<div><dt>${v[0]}</dt><dd>${esc(v[1])}</dd></div>`).join('')}</dl>`:''}
-        ${links.length?`<div class="pp-links">${links.map(v=>`<a class="text-link" href="${esc(v[0])}" target="_blank" rel="noopener">${v[1]} ↗</a>`).join('')}</div>`:''}</div></div></div>`:''}
+        ${links.length?`<div class="pp-links">${links.map(v=>`<a class="text-link" href="${esc(v[0])}" target="_blank" rel="noopener">${v[1]} ↗</a>`).join('')}</div>`:''}</div></div>
+        ${st.mapQuery||st.address?`<div class="pp-map"><iframe title="${esc(st.kr)} 지도" src="https://maps.google.com/maps?q=${encodeURIComponent(st.mapQuery||st.address)}&hl=ko&z=17&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>`:''}</div>`:''}
       ${classes.length?`<div class="pp-block"><div class="pp-head"><span class="eyebrow">CLASS</span><h2>교육 일정</h2></div><div class="date-list">${classes.map(item=>{const t=getTrack(item.track),cr=t?.courses.find(c=>c.id===item.course);const title=item.courseTitle||cr?.kr||'교육 과정';const isOpen=item.status==='모집 중';return `<article class="date-item"><time>${when(item.date)}<small>${esc(item.time||'')}</small></time><div class="date-course"><div class="dc-text"><span>${esc(t?.name||'BR ACADEMY')}</span><h3>${esc(title)}</h3><p>${esc(item.place||'장소 추후 안내')}</p></div></div><span class="date-status ${isOpen?'open':''}">${esc(item.status||'')}</span>${isOpen?applyLink('신청하기','date-apply',title,item.id):''}</article>`;}).join('')}</div></div>`:''}
       <div class="pp-others"><span class="fm-label">다른 강사</span><div>${others.map(o=>`<a href="#/people/${esc(o.slug)}"><img src="${esc(o.img)}" alt="" loading="lazy"><span>${esc(o.name)}</span></a>`).join('')}</div></div>
     </div></section>`;
