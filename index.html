@@ -496,6 +496,8 @@ body.jv-open{overflow:hidden}
 .pp-cols{display:grid;grid-template-columns:1.4fr 1fr;gap:48px}
 .pp-list{margin:0;padding-left:18px;line-height:2;font-size:14px;color:var(--sub);columns:1}
 .pp-cols>.pp-list{columns:2;column-gap:40px}
+.pp-sections{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.pp-sections>div{background:#fffdfa;padding:26px 28px}.pp-sections .pp-list{margin-top:10px;font-size:13.5px;line-height:1.85}
+@media (max-width:900px){.pp-sections{grid-template-columns:1fr}}
 .pp-awards{background:#fffdfa;padding:26px 28px;align-self:start}.pp-awards .pp-list{font-size:13px;line-height:1.8}.pp-awards li+li{margin-top:8px}
 .pp-journal{grid-template-columns:repeat(4,1fr)}.pp-extra{display:none!important}.show-all .pp-extra{display:flex!important}
 .pp-store{background:#fffdfa;display:grid;grid-template-columns:1fr}.pp-store.has-photo{grid-template-columns:1.1fr 1fr}
@@ -650,15 +652,50 @@ window.SITE = {
       "산전산후 전문스파 파크비알 CEO",
       "(주)에스디코리아 CEO"
     ],
+    "topAward": "국제 뷰티 기능대회 얼굴관리 대상",
+    "highlights": [
+      "성균관대학교 생명과학 전공",
+      "글로벌 제약회사 GSK 트레이너",
+      "아모레퍼시픽 '에스트라' 리제덤 공동 개발",
+      "LG '프라엘' 공동 개발",
+      "국제 뷰티 기능대회 얼굴관리 대상",
+      "K뷰티 올림픽 6종목 토탈 그랑프리",
+      "국제 뷰티 엑스포 피부 심사위원장",
+      "SBS·MBC·JTBC 피부 전문가 방송 출연"
+    ],
     "creds": [
       "성균관대학교 생명과학 전공",
       "글로벌 제약회사 GSK 트레이너",
-      "국제 뷰티 기능대회 얼굴관리 대상",
-      "K뷰티 올림픽 6종목 토탈 그랑프리",
       "대한미용사회 중앙회 피부미용 위원",
-      "국제뷰티엑스포 피부 심사위원장",
+      "국제 뷰티 엑스포 피부 심사위원장",
       "제1회 맞춤형화장품 조제관리사",
       "시그니처 매거진 뷰티 칼럼니스트"
+    ],
+    "awards": [
+      "국제 뷰티 기능대회 얼굴관리 대상",
+      "K뷰티 올림픽 6종목 토탈 그랑프리",
+      "外 피부 관련 대회 수상 20건 이상"
+    ],
+    "sections": [
+      {"label": "대기업 협업", "items": [
+        "아모레퍼시픽 '에스트라' 리제덤 공동 개발",
+        "LG '프라엘' 공동 개발",
+        "LG생활건강 '더 스토리 오브 후' 교육 자문",
+        "로레알 '스킨수티컬스' 네이버 쇼핑라이브"
+      ]},
+      {"label": "브랜드 앰배서더", "items": [
+        "프랑스 '비올로직호쉐쉬'",
+        "독일 '닥터슈라멕'",
+        "엑소코바이오 '엑소마지'"
+      ]},
+      {"label": "방송 출연", "items": [
+        "SBS '좋은 아침' 피부 전문가 출연",
+        "MBC '기분 좋은 날' 피부 전문가 출연",
+        "채널A '나는 몸신이다' 몸신 출연",
+        "JTBC '다채로운 아침' 피부 전문가 출연",
+        "CJ·롯데 홈쇼핑 촬영 및 인터뷰",
+        "카카오라이브·네이버·SSG 쇼핑 라이브"
+      ]}
     ]
   },
   "journal": [
@@ -2035,7 +2072,7 @@ if (window.BR_CONFIG?.supabaseUrl && window.BR_CONFIG?.supabasePublishableKey) {
   function peopleHTML() {
     const D=S.director;
     return `<section class="section people-section" id="people"><div class="wrap">${sectionHead('06','THE PEOPLE BEHIND THE METHOD','강사 소개','매장을 운영하고 직접 고객을 관리하는 현직 원장들의 경험을 전합니다.')}
-      <div class="faculty-mini faculty-trio"><article><div class="fm-head"><a href="#/people/${esc(D.slug)}" class="fm-photo-link"><img class="fm-photo" src="${esc(D.img)}" alt="${esc(D.name)} 프로필" loading="lazy"></a><div><span class="eyebrow">FOUNDER & DIRECTOR</span><h4><a href="#/people/${esc(D.slug)}">${esc(D.name)}</a></h4><p class="fm-titles">${D.titles.map(v=>esc(v)).join('<br>')}</p>${(S.journal||[]).length?`<a class="journal-link fm-journal" href="#/journal">매거진 칼럼 읽기 →</a>`:''}</div></div><div class="fm-creds"><span class="fm-label">주요 경력</span><ul>${D.creds.slice(0,8).map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div><a class="fm-more" href="#/people/${esc(D.slug)}">프로필 자세히 보기 →</a></article>${S.faculty.map(f=>`<article><div class="fm-head"><a href="#/people/${esc(f.slug)}" class="fm-photo-link"><img class="fm-photo" src="${esc(f.img)}" alt="${esc(f.name)} 프로필" loading="lazy"></a><div><span class="eyebrow">PROFESSIONAL FACULTY</span><h4><a href="#/people/${esc(f.slug)}">${esc(f.name)}</a></h4><p>${esc(f.role)}</p>${(S.journal||[]).some(j=>j.author===f.name)?`<a class="journal-link fm-journal" href="#/journal" onclick="event.preventDefault();brOpenAuthor('${esc(f.name)}')">매거진 칼럼 읽기 →</a>`:''}</div></div><div class="fm-creds"><span class="fm-label">주요 경력</span><ul>${f.creds.slice(0,8).map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div><a class="fm-more" href="#/people/${esc(f.slug)}">프로필 · 매거진 · 매장 보기 →</a></article>`).join('')}</div>
+      <div class="faculty-mini faculty-trio"><article><div class="fm-head"><a href="#/people/${esc(D.slug)}" class="fm-photo-link"><img class="fm-photo" src="${esc(D.img)}" alt="${esc(D.name)} 프로필" loading="lazy"></a><div><span class="eyebrow">FOUNDER & DIRECTOR</span><h4><a href="#/people/${esc(D.slug)}">${esc(D.name)}</a></h4><p class="fm-titles">${D.titles.map(v=>esc(v)).join('<br>')}</p>${(S.journal||[]).length?`<a class="journal-link fm-journal" href="#/journal">매거진 칼럼 읽기 →</a>`:''}</div></div><div class="fm-creds"><span class="fm-label">주요 경력</span><ul>${(D.highlights||D.creds).slice(0,8).map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div><a class="fm-more" href="#/people/${esc(D.slug)}">프로필 자세히 보기 →</a></article>${S.faculty.map(f=>`<article><div class="fm-head"><a href="#/people/${esc(f.slug)}" class="fm-photo-link"><img class="fm-photo" src="${esc(f.img)}" alt="${esc(f.name)} 프로필" loading="lazy"></a><div><span class="eyebrow">PROFESSIONAL FACULTY</span><h4><a href="#/people/${esc(f.slug)}">${esc(f.name)}</a></h4><p>${esc(f.role)}</p>${(S.journal||[]).some(j=>j.author===f.name)?`<a class="journal-link fm-journal" href="#/journal" onclick="event.preventDefault();brOpenAuthor('${esc(f.name)}')">매거진 칼럼 읽기 →</a>`:''}</div></div><div class="fm-creds"><span class="fm-label">주요 경력</span><ul>${f.creds.slice(0,8).map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div><a class="fm-more" href="#/people/${esc(f.slug)}">프로필 · 매거진 · 매장 보기 →</a></article>`).join('')}</div>
     </div></section>`;
   }
   function getPerson(slug){const all=[S.director,...(S.faculty||[])].filter(Boolean);return all.find(p=>p.slug===slug);}
@@ -2067,6 +2104,7 @@ if (window.BR_CONFIG?.supabaseUrl && window.BR_CONFIG?.supabasePublishableKey) {
       <div class="pp-block" id="pp-career"><div class="pp-head"><span class="eyebrow">PROFILE</span><h2>자격 · 경력</h2></div>
         <div class="pp-cols"><ul class="pp-list">${(p.creds||[]).map(v=>`<li>${esc(v)}</li>`).join('')}</ul>
         ${(p.awards||[]).length?`<div class="pp-awards"><span class="fm-label">수상</span><ul class="pp-list">${p.awards.map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div>`:''}</div></div>
+      ${(p.sections||[]).length?`<div class="pp-block"><div class="pp-head"><span class="eyebrow">CAREER</span><h2>협업 · 앰배서더 · 방송</h2></div><div class="pp-sections">${p.sections.map(sec=>`<div><span class="fm-label">${esc(sec.label)}</span><ul class="pp-list">${sec.items.map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div>`).join('')}</div></div>`:''}
       ${J.length?`<div class="pp-block" id="pp-mag"><div class="pp-head"><span class="eyebrow">MAGAZINE</span><h2>매거진 · 기사</h2></div>
         <div class="journal-grid pp-journal">${J.map((j,i)=>`<button type="button" class="journal-card${i>=8?' pp-extra':''}" onclick="${j.url?`window.open('${esc(j.url)}','_blank','noopener')`:`brOpenJournal('${esc(j.id)}')`}"><span class="jc-cover"><img src="${esc(j.cover)}" alt="" loading="lazy"></span><span class="jc-meta"><em>${esc(label[j.cat]||'')}</em><span>${[j.date,j.mag].filter(Boolean).map(esc).join(' · ')}</span></span><strong>${esc(j.title)}</strong><span class="jc-lead">${esc(j.lead)}</span><span class="jc-more">${j.url?'기사 원문 보기 ↗':'지면 보기 →'}</span></button>`).join('')}</div>${J.length>8?`<button type="button" class="journal-more" onclick="this.closest('.pp-block').classList.add('show-all');this.remove()">전체 보기 (${J.length})</button>`:''}</div>`:''}
       ${st?`<div class="pp-block" id="pp-store"><div class="pp-head"><span class="eyebrow">STORE</span><h2>${esc(p.name)}의 매장</h2></div>
