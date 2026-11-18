@@ -473,6 +473,12 @@ body.jv-open{overflow:hidden}
 .fm-head p{margin-bottom:0}
 .faculty-mini details{margin-top:18px}
 @media (max-width:760px){.fm-photo{width:80px;height:100px}.fm-head{gap:16px}}
+.faculty-trio{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:0}
+.faculty-trio article{padding:28px 26px}
+.faculty-trio .fm-head{align-items:flex-start}
+.faculty-trio .fm-titles{line-height:1.6}
+.faculty-trio .eyebrow{white-space:nowrap;letter-spacing:.14em;font-size:10px}
+@media (max-width:1100px){.faculty-trio{grid-template-columns:1fr}}
 
 .fm-creds{border-top:1px solid var(--line);padding-top:16px;margin-top:20px;font-size:13px;color:var(--sub)}
 .fm-label{display:block;font-size:12px;font-weight:500;color:var(--ink);letter-spacing:.04em;margin-bottom:8px}
@@ -1608,7 +1614,7 @@ window.SITE = {
   "faculty": [
     {
       "img": "images/faculty-lee.jpg",
-      "role": "BR ACADEMY 강사",
+      "role": "스파비알 영등포점 원장",
       "name": "이정화 원장",
       "en": "Lee Jeong Hwa",
       "topAward": "2022 대한민국 국제 뷰티 아티스트 엑스포 컨테스트 페이스 림프테크닉 대상",
@@ -1643,7 +1649,7 @@ window.SITE = {
     },
     {
       "img": "images/faculty-chung.jpg",
-      "role": "SPA.BR 원장",
+      "role": "스파비알 정자점 원장",
       "name": "정진주 원장",
       "en": "Chung Jin Ju",
       "topAward": "인터내셔널 뷰티 아티스트 엑스포 콘테스트 수기윤곽 대상",
@@ -1952,8 +1958,7 @@ if (window.BR_CONFIG?.supabaseUrl && window.BR_CONFIG?.supabasePublishableKey) {
   function peopleHTML() {
     const D=S.director;
     return `<section class="section people-section" id="people"><div class="wrap">${sectionHead('06','THE PEOPLE BEHIND THE METHOD','강사 소개','매장을 운영하고 직접 고객을 관리하는 현직 원장들의 경험을 전합니다.')}
-      <div class="people-grid"><div class="people-photo">${shot(D.img,'김수진 대표원장 사진')}</div><div class="people-copy"><span class="eyebrow">FOUNDER & DIRECTOR</span><h3>${esc(D.name)}</h3><p>${esc(D.en)}</p><div class="people-titles">${D.titles.map(v=>`<span>${esc(v)}</span>`).join('')}</div>${(S.journal||[]).length?`<a class="journal-link" href="#/journal">매거진 칼럼 읽기 →</a>`:''}<div class="fm-creds"><span class="fm-label">주요 경력</span><ul>${D.creds.map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div></div></div>
-      <div class="faculty-mini">${S.faculty.map(f=>`<article><div class="fm-head"><img class="fm-photo" src="${esc(f.img)}" alt="${esc(f.name)} 프로필" loading="lazy"><div><span class="eyebrow">PROFESSIONAL FACULTY</span><h4>${esc(f.name)}</h4><p>${esc(f.role)}</p>${(S.journal||[]).some(j=>j.author===f.name)?`<a class="journal-link fm-journal" href="#/journal" onclick="event.preventDefault();brOpenAuthor('${esc(f.name)}')">매거진 칼럼 읽기 →</a>`:''}</div></div><div class="fm-creds"><span class="fm-label">주요 경력</span><ul>${f.creds.slice(0,8).map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div></article>`).join('')}</div>
+      <div class="faculty-mini faculty-trio"><article><div class="fm-head"><img class="fm-photo" src="${esc(D.img)}" alt="${esc(D.name)} 프로필" loading="lazy"><div><span class="eyebrow">FOUNDER & DIRECTOR</span><h4>${esc(D.name)}</h4><p class="fm-titles">${D.titles.map(v=>esc(v)).join('<br>')}</p>${(S.journal||[]).length?`<a class="journal-link fm-journal" href="#/journal">매거진 칼럼 읽기 →</a>`:''}</div></div><div class="fm-creds"><span class="fm-label">주요 경력</span><ul>${D.creds.slice(0,8).map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div></article>${S.faculty.map(f=>`<article><div class="fm-head"><img class="fm-photo" src="${esc(f.img)}" alt="${esc(f.name)} 프로필" loading="lazy"><div><span class="eyebrow">PROFESSIONAL FACULTY</span><h4>${esc(f.name)}</h4><p>${esc(f.role)}</p>${(S.journal||[]).some(j=>j.author===f.name)?`<a class="journal-link fm-journal" href="#/journal" onclick="event.preventDefault();brOpenAuthor('${esc(f.name)}')">매거진 칼럼 읽기 →</a>`:''}</div></div><div class="fm-creds"><span class="fm-label">주요 경력</span><ul>${f.creds.slice(0,8).map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div></article>`).join('')}</div>
     </div></section>`;
   }
   function journalHTML() {
