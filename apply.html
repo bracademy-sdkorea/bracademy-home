@@ -127,6 +127,12 @@ details.addr summary span{color:var(--violet2);font-weight:400;font-size:10px}
 details.addr .inner{padding-top:12px;display:grid;gap:8px}
 details.addr .note{font-size:11px;color:var(--muted)}
 .post{display:grid;grid-template-columns:140px 1fr;gap:8px}
+.addr-btn{height:36px;border:1px solid var(--ink);background:var(--ink);color:#fff;font-size:13px;font-weight:500;cursor:pointer}
+input[readonly]{cursor:pointer}
+.post-wrap{margin-top:8px;border:1px solid var(--ink);background:#fff}
+.post-head{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;font-size:11.5px;color:var(--muted);border-bottom:1px solid var(--line)}
+.post-head button{background:none;border:none;font-size:14px;cursor:pointer;padding:2px 6px}
+#postLayer{height:420px}
 
 /* 동의 */
 .agree{display:flex;gap:10px;align-items:center;font-size:12px;font-weight:700;cursor:pointer}
@@ -158,7 +164,7 @@ details.terms .inner{font-size:11.5px;color:var(--muted);line-height:1.8;padding
   .hero{padding:30px 22px 24px}.hero h1{font-size:28px}
   .body{padding:12px 22px 32px}
   .row{grid-template-columns:1fr;gap:0}.row .field{margin-bottom:18px}
-  .post{grid-template-columns:1fr}
+  .post{grid-template-columns:110px 1fr}
   .picker .pmeta{display:none}
 }
 </style>
@@ -241,8 +247,13 @@ details.terms .inner{font-size:11.5px;color:var(--muted);line-height:1.8;padding
             <div class="field">
               <label class="lab" for="zip">주소</label>
               <div class="post">
-                <input type="text" id="zip" placeholder="우편번호" inputmode="numeric">
-                <input type="text" id="addr1" placeholder="기본 주소">
+                <input type="text" id="zip" placeholder="우편번호" readonly>
+                <button type="button" class="addr-btn" id="addrBtn">도로명 주소 검색</button>
+              </div>
+              <input type="text" id="addr1" placeholder="주소 검색 버튼을 눌러주세요" readonly style="margin-top:8px">
+              <div id="postWrap" class="post-wrap hidden">
+                <div class="post-head"><span>도로명·건물명·지번으로 검색하세요</span><button type="button" id="postClose" aria-label="닫기">✕</button></div>
+                <div id="postLayer"></div>
               </div>
               <input type="text" id="addr2" placeholder="상세 주소" style="margin-top:8px">
               <p class="hint">제품·혜택 발송 목적으로만 사용합니다.</p>
@@ -465,6 +476,39 @@ chips($("interestChips"), CONFIG.interests, false);
 state.course = initialCourse();
 renderCourse();
 window.addEventListener("hashchange",()=>{ const c=findCourse(location.hash.slice(1)); if(c){ state.course=c; renderCourse(); } });
+</script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+/* 도로명 주소 검색 (카카오 우편번호 서비스 · 무료) */
+(function(){
+  const wrap=document.getElementById("postWrap"), layer=document.getElementById("postLayer");
+  function close(){ wrap.classList.add("hidden"); layer.innerHTML=""; }
+  function open(){
+    if(!window.daum || !daum.Postcode){ // 검색 서비스를 못 불러온 경우 직접 입력 허용
+      ["zip","addr1"].forEach(id=>{const el=document.getElementById(id); el.readOnly=false;});
+      document.getElementById("addr1").placeholder="기본 주소"; document.getElementById("addr1").focus(); return;
+    }
+    wrap.classList.remove("hidden");
+    new daum.Postcode({
+      oncomplete: function(d){
+        let addr = d.roadAddress || d.jibunAddress, extra = [];
+        if(d.bname && /[동로가]$/.test(d.bname)) extra.push(d.bname);
+        if(d.buildingName && d.apartment==="Y") extra.push(d.buildingName);
+        if(extra.length) addr += " (" + extra.join(", ") + ")";
+        document.getElementById("zip").value = d.zonecode;
+        document.getElementById("addr1").value = addr;
+        close();
+        document.getElementById("addr2").focus();
+      },
+      width:"100%", height:"100%"
+    }).embed(layer);
+    wrap.scrollIntoView({behavior:"smooth",block:"nearest"});
+  }
+  document.getElementById("addrBtn").onclick=open;
+  document.getElementById("zip").onclick=function(){ if(this.readOnly) open(); };
+  document.getElementById("addr1").onclick=function(){ if(this.readOnly) open(); };
+  document.getElementById("postClose").onclick=close;
+})();
 </script>
 </body>
 </html>
