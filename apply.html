@@ -91,33 +91,34 @@ input::placeholder{color:#a59c95}
 .chip[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
 
 /* 초청 배너 */
-.perk{margin-top:10px;background:#3b2a22;color:#fff;padding:22px 20px 20px;border-radius:6px;text-align:center}
-.perk-tag{display:inline-block;font-size:12px;font-weight:700;color:#3b2a22;background:#f3d48c;padding:5px 12px;border-radius:20px;letter-spacing:.02em}
-.perk-list{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:16px auto 16px;max-width:420px}
-.perk-list li{background:rgba(255,255,255,.08);border:1px solid rgba(243,212,140,.35);border-radius:6px;padding:14px 6px 12px;display:flex;flex-direction:column;align-items:center;gap:3px}
-.perk-list .ico{font-size:18px;font-weight:800;color:#f3d48c;height:26px;line-height:26px;font-family:var(--sans)}
-.perk-list b{font-size:15px;font-weight:700;letter-spacing:-.01em}
-.perk-list small{font-size:11.5px;color:rgba(255,255,255,.72)}
-.perk-sub{font-size:13.5px;line-height:1.75;color:rgba(255,255,255,.9)}
-.perk-sub b{color:#fff;text-decoration:underline;text-underline-offset:3px}
-.perk-sub strong{color:#f3d48c;font-size:15px}
-.perk+.more{margin-top:10px}
 .more-inner .field:first-child{margin-top:16px}
-.more{border:1px solid var(--line);background:#fff}
-.more-head{padding:15px 16px;font-size:14px;font-weight:700;color:var(--ink);background:var(--accent-soft);border-bottom:1px solid var(--line)}
-.more .more-inner{padding:6px 16px 20px}
+.benefit{margin-top:16px;background:#f8f2e9;border:1px solid #e8dccb;border-radius:8px;padding:30px 22px 26px}
+.perk{text-align:center}
+.perk-head{display:flex;align-items:center;justify-content:center;gap:8px}
+.perk-badge{font-size:10px;font-weight:700;letter-spacing:.12em;color:#fff;background:var(--accent);padding:4px 8px;border-radius:3px}
+.perk-title{font-family:var(--serif);font-weight:600;font-size:20px;color:var(--ink)}
+.perk-list{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:20px auto 18px;max-width:440px}
+.perk-list li{background:#fff;border:1px solid #eadfcf;border-radius:6px;padding:16px 8px 14px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.perk-list .ico{font-size:20px;font-weight:800;color:var(--accent);height:28px;line-height:28px}
+.perk-list b{font-size:15.5px;font-weight:700;color:var(--ink)}
+.perk-list small{font-size:11.5px;color:var(--muted);line-height:1.55;margin-top:2px}
+.perk-sub{font-size:13.5px;line-height:1.75;color:#5a4a40}
+.more{margin-top:24px;padding-top:22px;border-top:1px dashed #d9c9b3}
+.more-head{font-size:15px;font-weight:700;color:var(--accent);margin-bottom:4px}
+.more .more-inner{padding:0}
+.benefit input[type=text]{background:#fff}
+.benefit .chip{background:#fff}
+.benefit .chip[aria-pressed=true]{background:var(--ink)}
 .opt-agree{margin-top:14px;font-weight:500}
 .opt-agree input{accent-color:var(--ink)}
 .agree-note{font-size:11.5px;color:var(--muted);margin:6px 0 0 25px;line-height:1.6}
-.perk-list small{line-height:1.5;margin-top:2px}
 details.more{margin-top:6px;border:1px solid var(--line);background:#fff}
 details.more>summary{padding:15px 16px;font-size:13px;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
 details.more>summary:before{content:"＋";font-size:13px;color:var(--accent);margin-right:2px}
 details[open].more>summary:before{content:"－"}
 details.more>summary span{color:var(--muted);font-size:11px}
 details.more>summary em{font-style:normal;color:var(--muted);font-size:11px;margin-left:auto}
-details.more .more-inner{padding:6px 16px 20px;border-top:1px solid var(--line)}
-.more-intro{font-size:12.5px;line-height:1.7;color:var(--accent);background:var(--accent-soft);padding:12px 14px;margin:16px 0 18px}
+details.more-intro{font-size:12.5px;line-height:1.7;color:var(--accent);background:var(--accent-soft);padding:12px 14px;margin:16px 0 18px}
 .hint{font-size:11.5px;color:var(--muted);margin-top:7px;line-height:1.6}
 .consent-box{background:var(--accent-soft)!important;border-color:var(--line)!important}
 .consent-box input{accent-color:var(--accent)!important}
@@ -227,8 +228,9 @@ details.terms .inner{font-size:11.5px;color:var(--muted);line-height:1.8;padding
             <div class="err">휴대폰 번호를 정확히 입력해 주세요.</div>
           </div>
         </div>
+        <div class="benefit">
         <div class="perk">
-          <p class="perk-tag">원장님 전용 혜택</p>
+          <div class="perk-head"><span class="perk-badge">EVENT</span><h4 class="perk-title">원장님 전용 혜택</h4></div>
           <ul class="perk-list">
             <li><span class="ico">%</span><b>전용 특가</b><small>수강생·원장님 전용<br>에스테틱 제품 특가 적용</small></li>
             <li><span class="ico">✉</span><b>교육·혜택 안내</b><small>신규 세미나·데모 일정<br>우선 안내</small></li>
@@ -267,6 +269,8 @@ details.terms .inner{font-size:11.5px;color:var(--muted);line-height:1.8;padding
             </div>
             <div id="interestChips" class="hidden"></div>
           </div>
+        </div>
+        </div>
       </div>
 
       <!-- 동의 -->
