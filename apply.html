@@ -91,6 +91,26 @@ input::placeholder{color:#a59c95}
 .chip[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
 
 /* 초청 배너 */
+.perk{margin-top:10px;background:#3b2a22;color:#fff;padding:22px 20px 20px;border-radius:6px;text-align:center}
+.perk-tag{display:inline-block;font-size:12px;font-weight:700;color:#3b2a22;background:#f3d48c;padding:5px 12px;border-radius:20px;letter-spacing:.02em}
+.perk-list{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0 16px}
+.perk-list li{background:rgba(255,255,255,.08);border:1px solid rgba(243,212,140,.35);border-radius:6px;padding:14px 6px 12px;display:flex;flex-direction:column;align-items:center;gap:3px}
+.perk-list .ico{font-size:18px;font-weight:800;color:#f3d48c;height:26px;line-height:26px;font-family:var(--sans)}
+.perk-list b{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.perk-list small{font-size:11.5px;color:rgba(255,255,255,.72)}
+.perk-sub{font-size:13.5px;line-height:1.75;color:rgba(255,255,255,.9)}
+.perk-sub b{color:#fff;text-decoration:underline;text-underline-offset:3px}
+.perk-sub strong{color:#f3d48c;font-size:15px}
+.perk+details.more{margin-top:10px}
+.more-inner .field:first-child{margin-top:16px}
+details.more{margin-top:6px;border:1px solid var(--line);background:#fff}
+details.more>summary{padding:15px 16px;font-size:13px;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+details.more>summary:before{content:"＋";font-size:13px;color:var(--accent);margin-right:2px}
+details[open].more>summary:before{content:"－"}
+details.more>summary span{color:var(--muted);font-size:11px}
+details.more>summary em{font-style:normal;color:var(--muted);font-size:11px;margin-left:auto}
+details.more .more-inner{padding:6px 16px 20px;border-top:1px solid var(--line)}
+.more-intro{font-size:12.5px;line-height:1.7;color:var(--accent);background:var(--accent-soft);padding:12px 14px;margin:16px 0 18px}
 .hint{font-size:11.5px;color:var(--muted);margin-top:7px;line-height:1.6}
 .consent-box{background:var(--accent-soft)!important;border-color:var(--line)!important}
 .consent-box input{accent-color:var(--accent)!important}
@@ -102,7 +122,7 @@ details.addr{background:var(--accent-soft);border-left:3px solid var(--accent);p
 details summary{cursor:pointer;font-size:12px;font-weight:700;list-style:none}
 details summary::-webkit-details-marker{display:none}
 details summary:before{content:"▶ ";font-size:9px}
-details[open] summary:before{content:"▼ "}
+details[open]>summary:before{content:"▼ "}
 details.addr summary span{color:var(--violet2);font-weight:400;font-size:10px}
 details.addr .inner{padding-top:12px;display:grid;gap:8px}
 details.addr .note{font-size:11px;color:var(--muted)}
@@ -165,7 +185,7 @@ details.terms .inner{font-size:11.5px;color:var(--muted);line-height:1.8;padding
     <div class="hero">
       <div class="eyebrow">BR ACADEMY</div>
       <h1>교육 신청</h1>
-      <p>1분 안에 간편하게 신청하세요.</p>
+      <p>이름과 연락처만으로 30초면 신청할 수 있어요.</p>
     </div>
 
     <form class="body" id="form" novalidate>
@@ -194,38 +214,44 @@ details.terms .inner{font-size:11.5px;color:var(--muted);line-height:1.8;padding
             <div class="err">휴대폰 번호를 정확히 입력해 주세요.</div>
           </div>
         </div>
-        <div class="field">
-          <label class="lab">직책 또는 구분</label>
-          <div class="chips" id="roleChips" data-single="true"></div>
+        <div class="perk">
+          <p class="perk-tag">원장님 전용 혜택</p>
+          <ul class="perk-list">
+            <li><span class="ico">%</span><b>전용 특가</b><small>에스테틱 제품</small></li>
+            <li><span class="ico">🎁</span><b>샘플 키트</b><small>무료 증정</small></li>
+            <li><span class="ico">NEW</span><b>신제품</b><small>우선 안내</small></li>
+          </ul>
+          <p class="perk-sub">아래 정보를 입력하고 <b>수신 동의</b>에 체크해 주세요.<br><strong>30초면 끝나요!</strong></p>
         </div>
-        <div class="field">
-          <label class="lab" for="store">매장명<span class="opt">(선택)</span></label>
-          <input type="text" id="store" placeholder="현재 운영 또는 근무 중인 매장명" autocomplete="organization">
-        </div>
-        <div class="field">
-          <label class="lab" for="insta">인스타그램<span class="opt">(선택)</span></label>
-          <input type="text" id="insta" placeholder="@아이디" autocomplete="off">
-          <p class="hint">인스타그램 아이디를 알려주시면 프라이빗 메시지 초청 링크를 보내드립니다.</p>
-          <label class="consent-box"><input type="checkbox" id="marketing"> 교육 및 제품 안내 혜택을 받겠습니다. <span class="opt">(선택)</span></label>
-        </div>
-
-        <details class="addr">
-          <summary>제품 수령 주소 입력 <span>(이벤트 및 무료증정)</span></summary>
-          <div class="inner">
-            <p class="note">제품 배송이 필요한 경우에만 입력해 주세요. 배송 목적이 끝난 뒤 30일 내 삭제합니다.</p>
-            <div class="post">
-              <input type="text" id="zip" placeholder="우편번호" inputmode="numeric">
-              <input type="text" id="addr1" placeholder="기본 주소">
+        <details class="more">
+          <summary><b>추가 정보 입력</b> <span>(선택)</span></summary>
+          <div class="more-inner">
+            <div class="field">
+              <label class="lab" for="store">매장명</label>
+              <input type="text" id="store" placeholder="현재 운영 또는 근무 중인 매장명" autocomplete="organization">
             </div>
-            <input type="text" id="addr2" placeholder="상세 주소">
+            <div class="field">
+              <label class="lab">직책</label>
+              <div class="chips" id="roleChips" data-single="true"></div>
+            </div>
+            <div class="field">
+              <label class="lab" for="insta">인스타그램</label>
+              <input type="text" id="insta" placeholder="@아이디" autocomplete="off">
+              <p class="hint">인스타그램 아이디를 알려주시면 프라이빗 메시지 초청 링크를 보내드립니다.</p>
+            </div>
+            <div class="field">
+              <label class="lab" for="zip">주소</label>
+              <div class="post">
+                <input type="text" id="zip" placeholder="우편번호" inputmode="numeric">
+                <input type="text" id="addr1" placeholder="기본 주소">
+              </div>
+              <input type="text" id="addr2" placeholder="상세 주소" style="margin-top:8px">
+              <p class="hint">제품·혜택 발송 목적으로만 사용합니다.</p>
+            </div>
+            <label class="consent-box"><input type="checkbox" id="marketing"> 원장님 전용 특가·샘플 키트·신제품 안내를 받겠습니다.</label>
+            <div id="interestChips" class="hidden"></div>
           </div>
         </details>
-      </div>
-
-      <!-- 관심 분야 -->
-      <div class="section">
-        <h3>관심 교육 분야<small>선택</small></h3>
-        <div class="chips" id="interestChips"></div>
       </div>
 
       <!-- 동의 -->
@@ -288,7 +314,7 @@ const CONFIG = {
 
   /* 신청 저장 위치 — 둘 다 비워두면 '미리보기 모드'(저장 안 됨).
      ① 구글 시트: Apps Script '웹 앱 URL'(https://script.google.com/macros/s/…/exec)을 붙여넣기 */
-  sheetUrl: "https://script.google.com/macros/s/AKfycbzHTXOIxItD_mFk_7Ddkeu4gRIv2DvdKM4JTgEt_-0FtdsVpgCJWoVdufH8fwCxkhiivQ/exec",
+   sheetUrl: "https://script.google.com/macros/s/AKfycbzHTXOIxItD_mFk_7Ddkeu4gRIv2DvdKM4JTgEt_-0FtdsVpgCJWoVdufH8fwCxkhiivQ/exec",
   /* ② (나중에) Supabase를 쓰게 되면 아래를 채우기 */
   supabaseUrl: "",       // 예: "https://xxxx.supabase.co"
   supabaseAnonKey: "",   // Supabase > Project Settings > API > anon public key
