@@ -91,14 +91,9 @@ input::placeholder{color:#a59c95}
 .chip[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
 
 /* 초청 배너 */
-.invite{position:relative;overflow:hidden;border-radius:4px;background:linear-gradient(110deg,var(--violet1),var(--violet2));color:#fff;padding:18px 16px 18px;margin:6px 0 20px;box-shadow:0 6px 16px rgba(80,40,130,.18)}
-.invite:after{content:"";position:absolute;right:-30px;top:-10px;width:150px;height:150px;border-radius:50%;border:26px solid rgba(255,255,255,.07)}
-.invite .pill{display:inline-block;background:var(--gold);color:#3d1f5c;font-size:10px;font-weight:700;padding:4px 8px;border-radius:20px}
-.invite h4{font-size:24px;line-height:1.35;margin:14px 0 12px;font-weight:700;letter-spacing:-.02em}
-.invite h4 span{color:var(--gold)}
-.invite hr{width:24px;border:none;border-top:1px solid rgba(255,255,255,.6);margin-bottom:10px}
-.invite p{font-size:11.5px;line-height:1.75;opacity:.9}
-.insta input{border-color:var(--violet-line)!important;background:#fdfcfe!important}
+.hint{font-size:11.5px;color:var(--muted);margin-top:7px;line-height:1.6}
+.consent-box{background:var(--accent-soft)!important;border-color:var(--line)!important}
+.consent-box input{accent-color:var(--accent)!important}
 .consent-box{display:flex;gap:10px;align-items:center;background:var(--violet-soft);border:1px solid #cdbbe6;padding:10px 12px;font-size:12px;cursor:pointer;margin-top:10px}
 .consent-box input,.agree input{width:15px;height:15px;accent-color:var(--violet2)}
 
@@ -203,22 +198,15 @@ details.terms .inner{font-size:11.5px;color:var(--muted);line-height:1.8;padding
           <label class="lab">직책 또는 구분</label>
           <div class="chips" id="roleChips" data-single="true"></div>
         </div>
-        <div class="field" data-f="store">
-          <label class="lab" for="store">매장명<span class="req">필수</span></label>
+        <div class="field">
+          <label class="lab" for="store">매장명<span class="opt">(선택)</span></label>
           <input type="text" id="store" placeholder="현재 운영 또는 근무 중인 매장명" autocomplete="organization">
-          <div class="err">매장명을 입력해 주세요. (예비창업자는 ‘예정’으로 입력)</div>
         </div>
-
-        <div class="invite">
-          <span class="pill">PRIVATE · 원장님 전용 초청</span>
-          <h4>원장님들과 공유하는<br><span>특별한 업계정보</span></h4>
-          <hr>
-          <p>프라이빗 메시지 초청 링크를 원하시는 분은<br>아래 인스타그램 아이디를 남겨주시고<br>수신 동의 항목에 체크해 주세요 ↓</p>
-        </div>
-        <div class="field insta">
-          <label class="lab" for="insta">Instagram 계정</label>
+        <div class="field">
+          <label class="lab" for="insta">인스타그램<span class="opt">(선택)</span></label>
           <input type="text" id="insta" placeholder="@아이디" autocomplete="off">
-          <label class="consent-box"><input type="checkbox" id="marketing"> 교육 및 제품 혜택 안내를 받겠습니다. <span class="opt">선택</span></label>
+          <p class="hint">인스타그램 아이디를 알려주시면 프라이빗 메시지 초청 링크를 보내드립니다.</p>
+          <label class="consent-box"><input type="checkbox" id="marketing"> 교육 및 제품 안내 혜택을 받겠습니다. <span class="opt">(선택)</span></label>
         </div>
 
         <details class="addr">
@@ -387,7 +375,6 @@ function validate(){
   if(!state.course){ ok=false; $("courseErr").style.display="block"; first=first||$("coursePicker"); }
   mark("name", !$("name").value.trim());
   mark("phone", !/^01\d-\d{3,4}-\d{4}$/.test($("phone").value));
-  mark("store", !$("store").value.trim());
   mark("agree", !$("agree").checked);
   if(first) first.scrollIntoView({behavior:"smooth",block:"center"});
   return ok;
