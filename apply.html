@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BR Academy 교육 신청</title>
+<meta name="description" content="BR Academy | 에스테틱 & 스파 교육 신청">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   색상·글꼴은 여기서 바꾸면 페이지 전체에 반영됩니다.
+   ========================================================= */
+:root{
+  --bg-top:#e9e4dd;      /* 상단 베이지 띠 */
+  --bg:#f5f3ef;          /* 페이지 배경 */
+  --card:#fdfcf9;        /* 카드 배경 */
+  --line:#e4ded6;        /* 구분선 */
+  --ink:#29211e;         /* 본문·버튼 진한 색 */
+  --muted:#7a6f68;       /* 보조 글씨 */
+  --accent:#8a5a44;      /* 브라운 포인트 */
+  --accent-soft:#f1ece6; /* 과정 박스 배경 */
+  --danger:#b2483a;      /* 필수·오류 */
+  --violet1:#3d1f5c; --violet2:#6d3fa5; --violet-soft:#f3eefb; --violet-line:#8a63c2;
+  --gold:#f3d48c;
+  --serif:"Noto Serif KR", serif;
+  --sans:"Noto Sans KR", sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);color:var(--ink);background:linear-gradient(var(--bg-top) 0 204px,var(--bg) 204px);min-height:100vh;-webkit-font-smoothing:antialiased;padding:20px 16px 60px}
+button,input{font:inherit;color:inherit}
+
+/* 헤더 */
+.header{max-width:880px;margin:0 auto 16px;background:var(--card);box-shadow:0 6px 18px rgba(60,40,30,.07);display:flex;align-items:center;gap:24px;padding:16px 22px}
+.logo{width:146px;height:58px;background:var(--bg-top);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
+.logo b{font-family:var(--sans);font-weight:400;font-size:21px;letter-spacing:.02em;color:#3a322e}
+.logo small{font-size:5.5px;letter-spacing:.18em;color:#6b615b;margin-top:2px}
+.logo svg{width:16px;height:12px;margin-bottom:1px}
+.logo.has-img svg,.logo.has-img b,.logo.has-img small{display:none}
+.brand{border-left:1px solid var(--line);padding-left:24px}
+.brand .eyebrow{font-size:10px;letter-spacing:.22em;color:var(--accent);font-weight:500}
+.brand h2{font-family:var(--serif);font-weight:500;font-size:21px;margin-top:6px}
+.header .spacer{flex:1}
+.header a.home{font-size:11px;color:var(--muted);border:1px solid var(--line);padding:8px 10px;text-decoration:none;white-space:nowrap}
+
+/* 카드 */
+.card{max-width:620px;margin:0 auto;background:var(--card);border:1px solid var(--line)}
+.hero{padding:42px 44px 34px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:10px;letter-spacing:.22em;color:var(--accent);font-weight:500}
+.hero h1{font-family:var(--serif);font-weight:500;font-size:36px;margin:10px 0 14px;letter-spacing:-.01em}
+.hero p{font-size:13px;color:var(--muted)}
+.body{padding:24px 44px 44px}
+.section{padding:28px 0;border-bottom:1px solid var(--line)}
+.section:last-of-type{border-bottom:none}
+.section h3{font-family:var(--serif);font-weight:500;font-size:19px;margin-bottom:16px}
+.section h3 small{font-family:var(--sans);font-size:10px;color:var(--muted);font-weight:400;margin-left:4px}
+
+/* 과정 박스 */
+.course{background:var(--accent-soft);border-left:3px solid var(--accent);padding:22px 18px 20px}
+.course .eyebrow{letter-spacing:.3em;font-size:9px}
+.course .name{font-family:var(--serif);font-size:18px;margin-top:8px}
+.course .meta{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.7}
+.course .change{font-size:11px;color:var(--accent);background:none;border:none;text-decoration:underline;cursor:pointer;margin-top:10px;padding:0}
+.picker{display:grid;gap:8px;margin-top:4px}
+.picker .group{font-size:11px;color:var(--accent);letter-spacing:.12em;margin:10px 0 2px;font-weight:500}
+.picker button{display:flex;gap:10px;align-items:center;text-align:left;background:#fff;border:1px solid var(--line);padding:12px 14px;cursor:pointer}
+.picker button:hover{border-color:var(--accent)}
+.tag{background:var(--accent);color:#fff;font-size:10px;font-weight:700;padding:3px 6px;flex-shrink:0}
+.picker .pname{font-size:14px}
+.picker .pmeta{font-size:11px;color:var(--muted);margin-left:auto;white-space:nowrap}
+
+/* 입력 */
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.field{margin-bottom:18px}
+.field:last-child{margin-bottom:0}
+label.lab{display:block;font-size:12px;color:#4a403b;margin-bottom:7px;font-weight:500}
+.req{color:var(--danger);font-size:10px;margin-left:4px;font-weight:500}
+.opt{color:var(--muted);font-size:10px;margin-left:4px;font-weight:400}
+input[type=text],input[type=tel]{width:100%;height:36px;border:1px solid var(--line);background:#f8f7f4;padding:0 10px;font-size:13px;outline:none;transition:border-color .15s}
+input[type=text]:focus,input[type=tel]:focus{border-color:var(--accent);background:#fff}
+input::placeholder{color:#a59c95}
+.invalid input{border-color:var(--danger)!important}
+.err{display:none;color:var(--danger);font-size:11px;margin-top:5px}
+.invalid .err{display:block}
+
+/* 칩 */
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{border:1px solid var(--line);background:#fff;padding:7px 10px;font-size:12px;cursor:pointer;transition:all .15s}
+.chip:hover{border-color:var(--accent)}
+.chip[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+
+/* 초청 배너 */
+.invite{position:relative;overflow:hidden;border-radius:4px;background:linear-gradient(110deg,var(--violet1),var(--violet2));color:#fff;padding:18px 16px 18px;margin:6px 0 20px;box-shadow:0 6px 16px rgba(80,40,130,.18)}
+.invite:after{content:"";position:absolute;right:-30px;top:-10px;width:150px;height:150px;border-radius:50%;border:26px solid rgba(255,255,255,.07)}
+.invite .pill{display:inline-block;background:var(--gold);color:#3d1f5c;font-size:10px;font-weight:700;padding:4px 8px;border-radius:20px}
+.invite h4{font-size:24px;line-height:1.35;margin:14px 0 12px;font-weight:700;letter-spacing:-.02em}
+.invite h4 span{color:var(--gold)}
+.invite hr{width:24px;border:none;border-top:1px solid rgba(255,255,255,.6);margin-bottom:10px}
+.invite p{font-size:11.5px;line-height:1.75;opacity:.9}
+.insta input{border-color:var(--violet-line)!important;background:#fdfcfe!important}
+.consent-box{display:flex;gap:10px;align-items:center;background:var(--violet-soft);border:1px solid #cdbbe6;padding:10px 12px;font-size:12px;cursor:pointer;margin-top:10px}
+.consent-box input,.agree input{width:15px;height:15px;accent-color:var(--violet2)}
+
+/* 접이식 */
+details.addr{background:var(--accent-soft);border-left:3px solid var(--accent);padding:12px 12px;margin-top:20px}
+details summary{cursor:pointer;font-size:12px;font-weight:700;list-style:none}
+details summary::-webkit-details-marker{display:none}
+details summary:before{content:"▶ ";font-size:9px}
+details[open] summary:before{content:"▼ "}
+details.addr summary span{color:var(--violet2);font-weight:400;font-size:10px}
+details.addr .inner{padding-top:12px;display:grid;gap:8px}
+details.addr .note{font-size:11px;color:var(--muted)}
+.post{display:grid;grid-template-columns:140px 1fr;gap:8px}
+
+/* 동의 */
+.agree{display:flex;gap:10px;align-items:center;font-size:12px;font-weight:700;cursor:pointer}
+.agree input{accent-color:var(--ink)}
+details.terms{margin:10px 0 0 22px}
+details.terms summary{font-weight:400;color:var(--muted);font-size:11px}
+details.terms .inner{font-size:11.5px;color:var(--muted);line-height:1.8;padding:8px 0 0 12px}
+.submit{width:100%;height:44px;background:var(--ink);color:#fff;border:none;font-size:14px;font-weight:700;cursor:pointer;margin-top:28px;transition:opacity .15s}
+.submit:hover{opacity:.9}
+.submit:disabled{opacity:.5;cursor:default}
+.formerr{color:var(--danger);font-size:12px;text-align:center;margin-top:12px;min-height:16px}
+
+/* 완료 화면 */
+.done{text-align:center;padding:60px 44px 56px}
+.done .check{width:56px;height:56px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:24px}
+.done h1{font-family:var(--serif);font-weight:500;font-size:28px;margin-bottom:12px}
+.done p{font-size:13px;color:var(--muted);line-height:1.8}
+.summary{text-align:left;background:var(--accent-soft);padding:16px 18px;margin:26px 0 22px;font-size:12.5px;line-height:2}
+.summary b{display:inline-block;width:72px;color:var(--muted);font-weight:400}
+.ghost{background:none;border:1px solid var(--line);padding:10px 16px;font-size:12px;cursor:pointer}
+.hidden{display:none!important}
+
+@media (max-width:600px){
+  body{padding:12px 10px 40px;background:linear-gradient(var(--bg-top) 0 150px,var(--bg) 150px)}
+  .header{gap:14px;padding:12px 14px}
+  .logo{width:96px;height:44px}.logo b{font-size:15px}.logo small{display:none}
+  .brand{padding-left:14px}.brand h2{font-size:16px}
+  .header a.home{display:none}
+  .hero{padding:30px 22px 24px}.hero h1{font-size:28px}
+  .body{padding:12px 22px 32px}
+  .row{grid-template-columns:1fr;gap:0}.row .field{margin-bottom:18px}
+  .post{grid-template-columns:1fr}
+  .picker .pmeta{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo" aria-label="BR academy">
+    <img src="images/logo-horizontal.png" alt="BR academy" style="height:80%;max-width:90%;object-fit:contain" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()">
+    <svg viewBox="0 0 16 12" fill="#3a322e"><path d="M8 12V5M8 5C8 2 6 .5 4 0c0 3 1.5 4.5 4 5zM8 6c0-2.5 2-4 4-4.5 0 2.5-1.5 4-4 4.5z"/></svg>
+    <b>spa.br</b><small>PREMIUM LIFE CARE CENTER</small>
+  </div>
+  <div class="brand">
+    <div class="eyebrow">SPA.BR EDUCATION</div>
+    <h2>BR Academy</h2>
+  </div>
+  <div class="spacer"></div>
+  <a class="home" href="https://www.bracademy.co.kr" target="_blank" rel="noopener">공식 홈페이지 ↗</a>
+</header>
+
+<main class="card">
+  <!-- ============ 신청 폼 ============ -->
+  <div id="formView">
+    <div class="hero">
+      <div class="eyebrow">BR ACADEMY</div>
+      <h1>교육 신청</h1>
+      <p>1분 안에 간편하게 신청하세요.</p>
+    </div>
+
+    <form class="body" id="form" novalidate>
+      <!-- 과정 -->
+      <div class="section" style="padding-top:4px">
+        <div id="courseBox"></div>
+        <div id="coursePicker" class="hidden">
+          <h3>신청할 교육 과정을 선택해 주세요</h3>
+          <div class="picker" id="pickerList"></div>
+        </div>
+        <div class="err" id="courseErr" style="display:none">교육 과정을 선택해 주세요.</div>
+      </div>
+
+      <!-- 신청자 정보 -->
+      <div class="section">
+        <h3>신청자 정보</h3>
+        <div class="row">
+          <div class="field" data-f="name">
+            <label class="lab" for="name">성함<span class="req">필수</span></label>
+            <input type="text" id="name" autocomplete="name">
+            <div class="err">성함을 입력해 주세요.</div>
+          </div>
+          <div class="field" data-f="phone">
+            <label class="lab" for="phone">휴대폰 번호<span class="req">필수</span></label>
+            <input type="tel" id="phone" placeholder="010-0000-0000" inputmode="numeric" autocomplete="tel">
+            <div class="err">휴대폰 번호를 정확히 입력해 주세요.</div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="lab">직책 또는 구분</label>
+          <div class="chips" id="roleChips" data-single="true"></div>
+        </div>
+        <div class="field" data-f="store">
+          <label class="lab" for="store">매장명<span class="req">필수</span></label>
+          <input type="text" id="store" placeholder="현재 운영 또는 근무 중인 매장명" autocomplete="organization">
+          <div class="err">매장명을 입력해 주세요. (예비창업자는 ‘예정’으로 입력)</div>
+        </div>
+
+        <div class="invite">
+          <span class="pill">PRIVATE · 원장님 전용 초청</span>
+          <h4>원장님들과 공유하는<br><span>특별한 업계정보</span></h4>
+          <hr>
+          <p>프라이빗 메시지 초청 링크를 원하시는 분은<br>아래 인스타그램 아이디를 남겨주시고<br>수신 동의 항목에 체크해 주세요 ↓</p>
+        </div>
+        <div class="field insta">
+          <label class="lab" for="insta">Instagram 계정</label>
+          <input type="text" id="insta" placeholder="@아이디" autocomplete="off">
+          <label class="consent-box"><input type="checkbox" id="marketing"> 교육 및 제품 혜택 안내를 받겠습니다. <span class="opt">선택</span></label>
+        </div>
+
+        <details class="addr">
+          <summary>제품 수령 주소 입력 <span>(이벤트 및 무료증정)</span></summary>
+          <div class="inner">
+            <p class="note">제품 배송이 필요한 경우에만 입력해 주세요. 배송 목적이 끝난 뒤 30일 내 삭제합니다.</p>
+            <div class="post">
+              <input type="text" id="zip" placeholder="우편번호" inputmode="numeric">
+              <input type="text" id="addr1" placeholder="기본 주소">
+            </div>
+            <input type="text" id="addr2" placeholder="상세 주소">
+          </div>
+        </details>
+      </div>
+
+      <!-- 관심 분야 -->
+      <div class="section">
+        <h3>관심 교육 분야<small>선택</small></h3>
+        <div class="chips" id="interestChips"></div>
+      </div>
+
+      <!-- 동의 -->
+      <div class="section" data-f="agree">
+        <h3>개인정보 및 수신 동의</h3>
+        <label class="agree"><input type="checkbox" id="agree"> [필수] 개인정보 수집 및 이용에 동의합니다.</label>
+        <details class="terms">
+          <summary>수집·이용 내용을 확인해 주세요.</summary>
+          <div class="inner" id="termsText"></div>
+        </details>
+        <div class="err" style="margin-left:25px">개인정보 수집·이용에 동의해 주세요.</div>
+        <button type="submit" class="submit" id="submitBtn">교육 신청 완료</button>
+        <div class="formerr" id="formErr"></div>
+      </div>
+    </form>
+  </div>
+
+  <!-- ============ 완료 화면 ============ -->
+  <div id="doneView" class="done hidden">
+    <div class="check">✓</div>
+    <h1>신청이 접수되었습니다</h1>
+    <p id="doneMsg"></p>
+    <div class="summary" id="summary"></div>
+    <button class="ghost" id="againBtn" type="button">다른 교육 신청하기</button>
+  </div>
+</main>
+
+<script>
+/* =========================================================
+   ✏️ 여기만 고치면 됩니다 — 과정, 문구, 선택지
+   - 과정 링크: 페이지주소?class=BR%20L2  또는  페이지주소#BR-L2
+   - 링크 없이 들어오면 과정 선택 목록이 나옵니다.
+   - open:false 로 바꾸면 목록에서 숨겨집니다(링크로는 여전히 열림).
+   ========================================================= */
+const CONFIG = {
+  /* code = 홈페이지 과정 코드(SK01…). alias = 예전 신청 링크 코드(BR L1…)도 계속 통하도록.
+     홈페이지 '신청하기'로 들어오면 날짜·시간·강사·장소는 홈페이지 일정에서 자동으로 넘어옵니다. */
+  courses: [
+    { code:"SK01", alias:"BR L1",   track:"BR SKIN",    name:"피부 기초 완성",               open:true },
+    { code:"SK02", alias:"BR L2",   track:"BR SKIN",    name:"트러블 전문 과정",             open:true },
+    { code:"SK03", alias:"BR L3",   track:"BR SKIN",    name:"BR 수기 윤곽",                 open:true },
+    { code:"SK04", alias:"BR L4",   track:"BR SKIN",    name:"BR 통합 마스터 (1-3단계)",     open:true },
+    { code:"PA01", alias:"PARC L1", track:"PARC BODY",  name:"산전 전문 관리",               open:true },
+    { code:"PA02", alias:"PARC L2", track:"PARC BODY",  name:"산후 회복·부종 관리",          open:true },
+    { code:"PA03", alias:"PARC L3", track:"PARC BODY",  name:"산후 바디 컨투어링",           open:true },
+    { code:"PA04", alias:"PARC L4", track:"PARC BODY",  name:"PARC 통합 마스터 (1-3단계)",   open:true },
+    { code:"EX01", alias:"EXO L1",  track:"EXO MASTER", name:"엑소스킨 아카데미 세미나",     open:true },
+    { code:"EX02", alias:"EXO L2",  track:"EXO MASTER", name:"엑소 스킨",                    open:true },
+    { code:"EX03", alias:"EXO L3",  track:"EXO MASTER", name:"엑소 헤어",                    open:true },
+    { code:"EX04", alias:"EXO L4",  track:"EXO MASTER", name:"엑소 마스터",                  open:true }
+  ],
+  roles: ["원장","실장","직원","예비창업자","기타"],
+  interests: ["페이셜 케어","바디 케어","헤드스파","산전·산후 케어","웨딩 케어","엑소스킨","에스테틱 & 스파 창업","기타"],
+  terms: [
+    "수집 항목: 성함, 휴대폰 번호, 매장명 및 신청자가 직접 입력한 정보",
+    "이용 목적: 교육 신청 확인, 참석 안내, 교육 운영, 신청자 관리 및 문의 대응",
+    "보유 기간: 최근 교육 신청일로부터 1년"
+  ],
+  doneMessage: "담당자가 확인 후 카카오 알림톡으로<br>교육 안내를 드릴게요. 감사합니다.",
+
+  /* 신청 저장 위치 — 둘 다 비워두면 '미리보기 모드'(저장 안 됨).
+     ① 구글 시트: Apps Script '웹 앱 URL'(https://script.google.com/macros/s/…/exec)을 붙여넣기 */
+  sheetUrl: "https://script.google.com/macros/s/AKfycbzHTXOIxItD_mFk_7Ddkeu4gRIv2DvdKM4JTgEt_-0FtdsVpgCJWoVdufH8fwCxkhiivQ/exec",
+  /* ② (나중에) Supabase를 쓰게 되면 아래를 채우기 */
+  supabaseUrl: "",       // 예: "https://xxxx.supabase.co"
+  supabaseAnonKey: "",   // Supabase > Project Settings > API > anon public key
+  supabaseTable: "applications"
+};
+
+/* ---------- 아래부터는 동작 코드 (수정 불필요) ---------- */
+const $ = id => document.getElementById(id);
+const state = { course:null, role:"", interests:new Set() };
+
+function findCourse(raw){
+  if(!raw) return null;
+  const norm = s => String(s||"").replace(/[-_+\s]/g,"").toLowerCase();
+  const k = norm(decodeURIComponent(raw));
+  return CONFIG.courses.find(c => norm(c.code)===k || norm(c.alias)===k) || null;
+}
+const WEEK=["일","월","화","수","목","금","토"];
+function prettyDate(d){ const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(d||""); if(!m) return d||""; const w=WEEK[new Date(+m[1],m[2]-1,+m[3]).getDay()]; return `${m[1]}.${m[2]}.${m[3]} (${w})`; }
+function initialCourse(){
+  let q; try{ q=new URLSearchParams(location.search); }catch(e){ q=new URLSearchParams(); }
+  const base = findCourse(q.get("course")) || findCourse(q.get("class")) || findCourse(location.hash.slice(1));
+  const title = q.get("title");
+  if(!base && !title) return null;
+  // 홈페이지 일정에서 넘어온 정보로 덮어쓰기 (같은 과정이라도 날짜·강사가 다를 수 있음)
+  const c = Object.assign({ code:q.get("course")||"", track:"", name:"" }, base||{});
+  if(title) c.name = title;
+  if(q.get("date")) c.date = prettyDate(q.get("date"));
+  if(q.get("time")) c.time = q.get("time");
+  const who=[q.get("teacher"),q.get("place")].filter(Boolean).join(" · ");
+  if(who) c.teacher = who;
+  if(q.get("session")) c.session = q.get("session");
+  return c;
+}
+function renderCourse(){
+  const box=$("courseBox"), picker=$("coursePicker");
+  if(state.course){
+    const c=state.course, meta=[ [c.date,c.time].filter(Boolean).join(" · "), c.teacher ].filter(Boolean).join("<br>");
+    box.innerHTML = `<div class="course"><div class="eyebrow">COURSE · 신청 교육 과정</div>
+      <div class="name">${c.name}</div>${meta?`<div class="meta">${meta}</div>`:""}
+      <button type="button" class="change" id="changeBtn">다른 과정 선택</button></div>`;
+    $("changeBtn").onclick=()=>{ state.course=null; renderCourse(); };
+    box.classList.remove("hidden"); picker.classList.add("hidden");
+  } else {
+    box.classList.add("hidden"); picker.classList.remove("hidden");
+    const list=$("pickerList"); list.innerHTML=""; let last="";
+    CONFIG.courses.filter(c=>c.open).forEach(c=>{
+      if(c.track!==last){ last=c.track; const g=document.createElement("div"); g.className="group"; g.textContent=c.track; list.appendChild(g); }
+      const b=document.createElement("button"); b.type="button";
+      b.innerHTML=`<span class="tag">${c.code}</span><span class="pname">${c.name}</span><span class="pmeta">${c.date||"일정 추후 안내"}</span>`;
+      b.onclick=()=>{ state.course=c; $("courseErr").style.display="none"; renderCourse(); window.scrollTo({top:0,behavior:"smooth"}); };
+      list.appendChild(b);
+    });
+  }
+}
+function chips(el, items, single){
+  items.forEach(t=>{
+    const b=document.createElement("button"); b.type="button"; b.className="chip"; b.textContent=t; b.setAttribute("aria-pressed","false");
+    b.onclick=()=>{
+      if(single){
+        const on=b.getAttribute("aria-pressed")==="true";
+        el.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed","false"));
+        b.setAttribute("aria-pressed", on?"false":"true"); state.role = on?"":t;
+      } else {
+        const on=state.interests.has(t); on?state.interests.delete(t):state.interests.add(t);
+        b.setAttribute("aria-pressed", on?"false":"true");
+      }
+    };
+    el.appendChild(b);
+  });
+}
+// 전화번호 자동 하이픈
+$("phone").addEventListener("input", e=>{
+  const d=e.target.value.replace(/\D/g,"").slice(0,11);
+  e.target.value = d.length<4?d : d.length<8? d.replace(/(\d{3})(\d+)/,"$1-$2") : d.replace(/(\d{3})(\d{3,4})(\d{4})/,"$1-$2-$3");
+});
+// 인스타 @ 자동
+$("insta").addEventListener("blur", e=>{ const v=e.target.value.trim().replace(/^@+/,""); e.target.value = v?"@"+v:""; });
+document.querySelectorAll("input").forEach(i=>i.addEventListener("input",()=>i.closest("[data-f]")?.classList.remove("invalid")));
+$("agree").addEventListener("change",()=>$("agree").closest("[data-f]").classList.remove("invalid"));
+
+function validate(){
+  let ok=true, first=null;
+  const mark=(f,bad)=>{ const el=document.querySelector(`[data-f="${f}"]`); el.classList.toggle("invalid",bad); if(bad){ok=false; first=first||el;} };
+  if(!state.course){ ok=false; $("courseErr").style.display="block"; first=first||$("coursePicker"); }
+  mark("name", !$("name").value.trim());
+  mark("phone", !/^01\d-\d{3,4}-\d{4}$/.test($("phone").value));
+  mark("store", !$("store").value.trim());
+  mark("agree", !$("agree").checked);
+  if(first) first.scrollIntoView({behavior:"smooth",block:"center"});
+  return ok;
+}
+
+$("form").addEventListener("submit", async e=>{
+  e.preventDefault(); $("formErr").textContent="";
+  if(!validate()) return;
+  const data = {
+    course_code: state.course.code, course_name: state.course.name,
+    session_id: state.course.session||"", course_date: [state.course.date,state.course.time].filter(Boolean).join(" "),
+    instructor: state.course.teacher||"",
+    name: $("name").value.trim(), phone: $("phone").value, role: state.role,
+    store: $("store").value.trim(), instagram: $("insta").value.trim(),
+    marketing_agree: $("marketing").checked,
+    zip: $("zip").value.trim(), address1: $("addr1").value.trim(), address2: $("addr2").value.trim(),
+    interests: [...state.interests], privacy_agree: true,
+    status: "신규", created_at: new Date().toISOString()
+  };
+  const btn=$("submitBtn"); btn.disabled=true; btn.textContent="신청 중…";
+  let saved=false;
+  try{
+    if(CONFIG.sheetUrl){
+      // 구글 시트로 전송 (Apps Script 웹 앱)
+      await fetch(CONFIG.sheetUrl,{ method:"POST", mode:"no-cors", headers:{"Content-Type":"text/plain;charset=utf-8"}, body: JSON.stringify(data) });
+      saved=true;
+    } else if(CONFIG.supabaseUrl && CONFIG.supabaseAnonKey){
+      const r = await fetch(`${CONFIG.supabaseUrl}/rest/v1/${CONFIG.supabaseTable}`,{
+        method:"POST",
+        headers:{ "apikey":CONFIG.supabaseAnonKey, "Authorization":"Bearer "+CONFIG.supabaseAnonKey,
+                  "Content-Type":"application/json", "Prefer":"return=minimal" },
+        body: JSON.stringify(data)
+      });
+      if(!r.ok) throw new Error(r.status);
+      saved=true;
+    }
+  }catch(err){
+    btn.disabled=false; btn.textContent="교육 신청 완료";
+    $("formErr").textContent="신청 저장 중 문제가 생겼어요. 잠시 후 다시 시도해 주세요.";
+    return;
+  }
+  showDone(data, saved);
+});
+
+function showDone(d, saved){
+  $("doneMsg").innerHTML = CONFIG.doneMessage + (saved?"":`<br><span style="color:var(--danger);font-size:11px">※ 미리보기 모드 — 신청 내용이 저장되지 않았습니다.</span>`);
+  const row=(k,v)=>v?`<div><b>${k}</b>${String(v).replace(/</g,"&lt;")}</div>`:"";
+  $("summary").innerHTML = row("교육 과정",d.course_name)+row("일정",[state.course.date,state.course.time].filter(Boolean).join(" · "))+row("성함",d.name)+row("연락처",d.phone)+row("매장명",d.store)+row("구분",d.role)+row("관심 분야",d.interests.join(", "));
+  $("formView").classList.add("hidden"); $("doneView").classList.remove("hidden");
+  window.scrollTo({top:0});
+}
+$("againBtn").onclick=()=>{
+  $("form").reset(); state.role=""; state.interests.clear(); state.course=null;
+  document.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed","false"));
+  const b=$("submitBtn"); b.disabled=false; b.textContent="교육 신청 완료";
+  $("doneView").classList.add("hidden"); $("formView").classList.remove("hidden"); renderCourse();
+};
+
+// 시작
+$("termsText").innerHTML = CONFIG.terms.join("<br>");
+chips($("roleChips"), CONFIG.roles, true);
+chips($("interestChips"), CONFIG.interests, false);
+state.course = initialCourse();
+renderCourse();
+window.addEventListener("hashchange",()=>{ const c=findCourse(location.hash.slice(1)); if(c){ state.course=c; renderCourse(); } });
+</script>
+</body>
+</html>
