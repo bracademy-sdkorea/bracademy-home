@@ -84,6 +84,8 @@
 .date-item time{font:400 18px var(--en);color:#372a24}
 .date-item time small{font:400 13px/1.8 var(--sans);color:#69594d}
 .date-status.open{color:#78543f;font-weight:700}
+.date-badge{display:inline-block;vertical-align:4px;margin-left:10px;font:700 11.5px/1 var(--sans);font-style:normal;color:#fff;background:#b2483a;padding:5px 9px;border-radius:20px;white-space:nowrap}
+@media(max-width:760px){.date-badge{margin:6px 0 0;display:table;vertical-align:0}}
 .date-apply{border:0;display:flex;justify-content:center;align-items:center;gap:13px;background:#302822;color:#fff;padding:12px;font-size:12px}
 .date-more{font-size:12px;color:#685346;text-decoration:underline;text-underline-offset:4px}
 .sync-warning{font-size:13px;color:#8b3e34;background:#fbeeea;padding:12px 16px;margin-bottom:18px}
@@ -1251,6 +1253,19 @@ window.SITE = {
       "place": "SPA BR 영등포점",
       "status": "모집 중",
       "published": true
+    },
+    {
+      "id": "exo-seminar-20270113",
+      "date": "2027-01-13",
+      "time": "",
+      "track": "exo",
+      "course": "EX01",
+      "courseTitle": "엑소스킨 아카데미 세미나",
+      "instructor": "",
+      "place": "",
+      "status": "모집 중",
+      "badge": "인기가 많습니다",
+      "published": true
     }
   ],
   "scheduleEmptyText": "확정된 교육 일정은 준비되는 대로 안내합니다. 지금 신청 사이트에서 관심 과정을 확인해주세요.",
@@ -2072,7 +2087,7 @@ if (window.BR_CONFIG?.supabaseUrl && window.BR_CONFIG?.supabasePublishableKey) {
       ${list.length ? `<div class="date-list">${list.map(item=>{
         const t=getTrack(item.track), cr=t?.courses.find(c=>c.id===item.course);
         const title=item.courseTitle||cr?.kr||item.course||'교육 과정', isOpen=item.status==='모집 중';
-        return `<article class="date-item ${isOpen?'is-recruiting':''}"><time datetime="${esc(item.date)}">${when(item.date)}<small>${esc(item.time||'시간 확인 중')}</small></time><div class="date-course"><div class="dc-text"><span>${esc(t?.name||'BR ACADEMY')} · ${esc(cr?.lv||'')}</span><h3>${esc(title)}</h3><p>${esc(item.instructor||'현직 원장 직강')} · ${esc(item.place||'장소 추후 안내')}</p></div>${instPhoto(item.instructor)}</div><span class="date-status ${isOpen?'open':''}">${esc(item.status||'일정 안내')}</span>${isOpen?applyLink('신청하기','date-apply',title,item.id):`<a class="date-more" href="#/education/${esc(item.track)}/${esc(item.course)}">과정 보기 ↗</a>`}</article>`;
+        return `<article class="date-item ${isOpen?'is-recruiting':''}"><time datetime="${esc(item.date)}">${when(item.date)}<small>${esc(item.time||'시간 확인 중')}</small></time><div class="date-course"><div class="dc-text"><span>${esc(t?.name||'BR ACADEMY')} · ${esc(cr?.lv||'')}</span><h3>${esc(title)}${item.badge?`<em class="date-badge">🔥 ${esc(item.badge)}</em>`:''}</h3><p>${esc(item.instructor||'현직 원장 직강')} · ${esc(item.place||'장소 추후 안내')}</p></div>${instPhoto(item.instructor)}</div><span class="date-status ${isOpen?'open':''}">${esc(item.status||'일정 안내')}</span>${isOpen?applyLink('신청하기','date-apply',title,item.id):`<a class="date-more" href="#/education/${esc(item.track)}/${esc(item.course)}">과정 보기 ↗</a>`}</article>`;
       }).join('')}</div>${list.length>3?`<button type="button" class="schedule-more${list.length<=4?' pc-hide':''}" onclick="const s=this.closest('.schedule-featured');s.classList.toggle('show-all');this.textContent=s.classList.contains('show-all')?'접기 ↑':'모집 중인 수업 전체 보기 (${list.length}) ↓'">모집 중인 수업 전체 보기 (${list.length}) ↓</button>`:''}` : `<div class="schedule-empty"><div class="empty-left"><span class="eyebrow">NEXT CLASS</span><h3>${state.sessionsError?'일정 연결을 확인해 주세요.':'현재 모집 중인 교육이 없습니다.'}</h3><p>새로운 교육 모집이 시작되면 이곳에서 안내합니다.</p></div><div class="empty-right">${applyLink('교육 상담 신청')}</div></div>`}
     </div></section>`;
   }
