@@ -181,7 +181,7 @@ details.terms .inner{font-size:11.5px;color:var(--muted);line-height:1.8;padding
 
 <header class="header">
   <div class="logo" aria-label="BR academy">
-    <img src="images/logo-horizontal.png" alt="BR academy" style="height:80%;max-width:90%;object-fit:contain" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()">
+    <img src="/images/logo-horizontal.png" alt="BR academy" style="height:80%;max-width:90%;object-fit:contain" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()">
     <svg viewBox="0 0 16 12" fill="#3a322e"><path d="M8 12V5M8 5C8 2 6 .5 4 0c0 3 1.5 4.5 4 5zM8 6c0-2.5 2-4 4-4.5 0 2.5-1.5 4-4 4.5z"/></svg>
     <b>spa.br</b><small>PREMIUM LIFE CARE CENTER</small>
   </div>
@@ -486,6 +486,32 @@ chips($("roleChips"), CONFIG.roles, true);
 chips($("interestChips"), CONFIG.interests, false);
 state.course = initialCourse();
 renderCourse();
+loadShortLink();
+
+/* 짧은 링크: bracademy.co.kr/c/수업ID  (또는 /apply?s=수업ID)
+   → 홈페이지 일정에서 그 수업의 날짜·시간·강사·장소를 찾아 자동으로 채움 */
+async function loadShortLink(){
+  let id="";
+  const m=location.pathname.match(/\/c\/([^/?#]+)/); if(m) id=decodeURIComponent(m[1]);
+  if(!id){ try{ id=new URLSearchParams(location.search).get("s")||""; }catch(e){} }
+  if(!id) return;
+  try{
+    const html=await (await fetch("/",{cache:"no-store"})).text();
+    const k=html.indexOf('"schedule": ['); if(k<0) return;
+    let i=html.indexOf("[",k), depth=0, j=i;
+    for(; j<html.length; j++){ const ch=html[j]; if(ch==="[") depth++; else if(ch==="]"){ depth--; if(!depth) break; } }
+    const list=JSON.parse(html.slice(i,j+1));
+    const it=list.find(x=>x.id===id || String(x.id).toLowerCase()===id.toLowerCase());
+    if(!it) return;
+    const base=findCourse(it.course)||{};
+    state.course=Object.assign({},base,{
+      code:it.course||base.code, name:it.courseTitle||base.name,
+      date:prettyDate(it.date), time:it.time||"", session:it.id,
+      teacher:[it.instructor,it.place].filter(Boolean).join(" · ")
+    });
+    renderCourse();
+  }catch(e){ console.warn("short link",e); }
+}
 window.addEventListener("hashchange",()=>{ const c=findCourse(location.hash.slice(1)); if(c){ state.course=c; renderCourse(); } });
 </script>
 <script src="https://t1.kakaocdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
