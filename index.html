@@ -501,6 +501,17 @@ body.jv-open{overflow:hidden}
 .pp-sections{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.pp-sections>div{background:#fffdfa;padding:26px 28px}.pp-sections .pp-list{margin-top:10px;font-size:13.5px;line-height:1.85}
 @media (max-width:900px){.pp-sections{grid-template-columns:1fr}}
 .pp-records{grid-template-columns:repeat(2,1fr)}
+.pp-cols:has(.pp-aw){grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:40px}
+.pp-cols:has(.pp-aw)>.pp-list{columns:1;align-self:start;padding-top:64px;font-size:14.5px;line-height:2.1}
+.pp-aw{list-style:none;margin:12px 0 0;padding:0}
+.pp-aw li{word-break:keep-all;display:grid;grid-template-columns:52px 1fr;gap:12px;padding:11px 0;border-top:1px solid #ece6dd;font-size:13.5px;line-height:1.55;color:var(--ink,#333)}
+.pp-aw li:first-child{border-top:0}
+.pp-aw b{font-weight:600;color:#9c7f58;font-variant-numeric:tabular-nums}
+.pp-aw small{display:block;font-size:12px;color:var(--sub);margin-top:2px}
+.pp-aw .aw-etc div{color:var(--sub)}
+.pp-rec li{line-height:1.6;margin-bottom:9px}
+@media (max-width:900px){.pp-cols:has(.pp-aw){grid-template-columns:1fr;gap:24px}.pp-cols:has(.pp-aw)>.pp-list{padding-top:0}.pp-aw li{grid-template-columns:44px 1fr;gap:10px}}
+.pp-rec small{display:block;font-size:12px;color:#a59a8d}
 .pp-awardphoto{margin:22px 0 0}.pp-awardphoto img{width:100%;display:block}.pp-awardphoto figcaption{font-size:12px;color:var(--sub);text-align:center;margin-top:10px;letter-spacing:.04em}
 @media (max-width:900px){.pp-records{grid-template-columns:1fr}}
 .pp-awards{background:#fffdfa;padding:26px 28px;align-self:start}.pp-awards .pp-list{font-size:13px;line-height:1.8}.pp-awards li+li{margin-top:8px}
@@ -2161,8 +2172,8 @@ if (window.BR_CONFIG?.supabaseUrl && window.BR_CONFIG?.supabasePublishableKey) {
       </div></div>
       <div class="pp-block" id="pp-career"><div class="pp-head"><span class="eyebrow">PROFILE</span><h2>자격 · 경력</h2></div>
         <div class="pp-cols"><ul class="pp-list">${(p.creds||[]).map(v=>`<li>${esc(v)}</li>`).join('')}</ul>
-        ${(p.awards||[]).length?`<div class="pp-awards"><span class="fm-label">수상</span><ul class="pp-list">${p.awards.map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div>`:''}</div></div>
-      ${(p.records||[]).length||p.awardsPhoto?`<div class="pp-block"><div class="pp-head"><span class="eyebrow">LICENSES &amp; ACTIVITIES</span><h2>자격 · 활동</h2></div>${(p.records||[]).length?`<div class="pp-sections pp-records">${p.records.map(sec=>`<div><span class="fm-label">${esc(sec.label)}</span><ul class="pp-list">${sec.items.map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div>`).join('')}</div>`:''}${p.awardsPhoto?`<figure class="pp-awardphoto"><img src="${esc(p.awardsPhoto)}" alt="${esc(p.name)} 상장 · 자격증 · 위촉장" loading="lazy"><figcaption>상장 · 자격증 · 위촉장</figcaption></figure>`:''}</div>`:''}
+        ${(p.awards||[]).length?`<div class="pp-awards"><span class="fm-label">수상</span><ul class="pp-aw">${p.awards.map(v=>{const m=v.match(/^(\d{4})\s+(.+?)(?:\s+·\s+(.+))?$/);return m?`<li><b>${m[1]}</b><div>${esc(m[2])}${m[3]?`<small>${esc(m[3])}</small>`:''}</div></li>`:`<li class="aw-etc"><b></b><div>${esc(v)}</div></li>`}).join('')}</ul></div>`:''}</div></div>
+      ${(p.records||[]).length||p.awardsPhoto?`<div class="pp-block"><div class="pp-head"><span class="eyebrow">LICENSES &amp; ACTIVITIES</span><h2>자격 · 활동</h2></div>${(p.records||[]).length?`<div class="pp-sections pp-records">${p.records.map(sec=>`<div><span class="fm-label">${esc(sec.label)}</span><ul class="pp-list pp-rec">${sec.items.map(v=>{const i=v.lastIndexOf(' · ');return i>0?`<li>${esc(v.slice(0,i))}<small>${esc(v.slice(i+3))}</small></li>`:`<li>${esc(v)}</li>`}).join('')}</ul></div>`).join('')}</div>`:''}${p.awardsPhoto?`<figure class="pp-awardphoto"><img src="${esc(p.awardsPhoto)}" alt="${esc(p.name)} 상장 · 자격증 · 위촉장" loading="lazy"><figcaption>상장 · 자격증 · 위촉장</figcaption></figure>`:''}</div>`:''}
       ${(p.sections||[]).length?`<div class="pp-block"><div class="pp-head"><span class="eyebrow">CAREER</span><h2>협업 · 앰배서더 · 방송</h2></div><div class="pp-sections">${p.sections.map(sec=>`<div><span class="fm-label">${esc(sec.label)}</span><ul class="pp-list">${sec.items.map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div>`).join('')}</div></div>`:''}
       ${J.length?`<div class="pp-block" id="pp-mag"><div class="pp-head"><span class="eyebrow">MAGAZINE</span><h2>매거진 · 기사</h2></div>
         <div class="journal-grid pp-journal">${J.map((j,i)=>`<button type="button" class="journal-card${i>=8?' pp-extra':''}" onclick="${j.url?`window.open('${esc(j.url)}','_blank','noopener')`:`brOpenJournal('${esc(j.id)}')`}"><span class="jc-cover"><img src="${esc(j.cover)}" alt="" loading="lazy"></span><span class="jc-meta"><em>${esc(label[j.cat]||'')}</em><span>${[j.date,j.mag].filter(Boolean).map(esc).join(' · ')}</span></span><strong>${esc(j.title)}</strong><span class="jc-lead">${esc(j.lead)}</span><span class="jc-more">${j.url?'기사 원문 보기 ↗':'지면 보기 →'}</span></button>`).join('')}</div>${J.length>8?`<button type="button" class="journal-more" onclick="this.closest('.pp-block').classList.add('show-all');this.remove()">전체 보기 (${J.length})</button>`:''}</div>`:''}
