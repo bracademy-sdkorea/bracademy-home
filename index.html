@@ -500,6 +500,9 @@ body.jv-open{overflow:hidden}
 .pp-cols>.pp-list{columns:2;column-gap:40px}
 .pp-sections{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.pp-sections>div{background:#fffdfa;padding:26px 28px}.pp-sections .pp-list{margin-top:10px;font-size:13.5px;line-height:1.85}
 @media (max-width:900px){.pp-sections{grid-template-columns:1fr}}
+.pp-records{grid-template-columns:repeat(2,1fr)}
+.pp-awardphoto{margin:22px 0 0}.pp-awardphoto img{width:100%;display:block}.pp-awardphoto figcaption{font-size:12px;color:var(--sub);text-align:center;margin-top:10px;letter-spacing:.04em}
+@media (max-width:900px){.pp-records{grid-template-columns:1fr}}
 .pp-awards{background:#fffdfa;padding:26px 28px;align-self:start}.pp-awards .pp-list{font-size:13px;line-height:1.8}.pp-awards li+li{margin-top:8px}
 .pp-journal{grid-template-columns:repeat(4,1fr)}.pp-extra{display:none!important}.show-all .pp-extra{display:flex!important}
 .pp-store{background:#fffdfa;display:grid;grid-template-columns:1fr}.pp-store.has-photo{grid-template-columns:1.1fr 1fr}
@@ -674,10 +677,43 @@ window.SITE = {
       "시그니처 매거진 뷰티 칼럼니스트"
     ],
     "awards": [
-      "국제 뷰티 기능대회 얼굴관리 대상",
-      "K뷰티 올림픽 6종목 토탈 그랑프리",
+      "2013 국제 미용대회 semi-permanent 디자인 대상 · IBEA 국제미용교류협회",
+      "2013 국제 뷰티 기능대회 얼굴관리 대상 · KLHC 국제뷰티건강기능 대회장",
+      "2014 K-뷰티 월드 페스티발 6종목 월드 그랜드 탑(토탈 그랑프리) · 세계뷰티문화산업교류협회",
+      "2014 춘향제 K-뷰티 디자인 스킨아트 공모전 금상 · K뷰티디자인콘테스트 대회장",
+      "2015 국제 한국미용 페스티벌 얼굴관리 금상 · 대한미용사회 중앙회",
+      "2016 ASIAN SKIN AWARD · Global Biologique Recherche",
+      "2017 Neoderma Skin Rejuvenation 분야 표창 · Neoderma",
+      "2017 국제한류문화뷰티개발원 피부부문 우수지도자상",
       "外 피부 관련 대회 수상 20건 이상"
     ],
+    "records": [
+      {"label": "자격증", "items": [
+        "미용사(피부) 국가자격증 · 한국기술자격검정원",
+        "화장품 전문가 1급 · 한국화장품전문가협회",
+        "반영구화장 1급 · 국제미용가연합회",
+        "속눈썹 연장 1급 · 국제미용가연합회",
+        "컨투어메이크업 강사 · 대한미용사회 중앙회",
+        "헤나 디자이너 · 한국헤나협회",
+        "Biologique Recherche Global Technique Certificat",
+        "트로이 Resurfacing Treatment 마스터 커리큘럼 수료 · MK Universal Inc",
+        "판디스 왁싱 트레이닝 수료 · PHANDHY's",
+        "바이오라인 이탈리아 스파테라피 수료 · BIOLINE Italy"
+      ]},
+      {"label": "관련 분야 활동", "items": [
+        "LG 뷰티 디바이스 개발 컨설팅 · LG이노텍",
+        "APHCA 미용예술교육원 스킨아트학 교수",
+        "아시아 태평양 세계인증강사 (스킨아트 CEO) · APHCA",
+        "한국예술원 스킨아트학 최고지도자 과정 수료",
+        "YG Kplus 모델 이미지 메이킹 교육",
+        "국제뷰티 아티스트 엑스포 피부/반영구 심사위원 · 국제미용가연합회",
+        "국제 한국미용 페스티벌 피부/반영구 심사위원",
+        "OMC 국제뷰티 엑스포 피부 심사위원 · 대한미용사회",
+        "국제 한류 뷰티 콘테스트 피부 심사위원 · 국제한류문화뷰티개발원",
+        "국제 타투 디자인 협회 부회장 · 국제미용가연합회"
+      ]}
+    ],
+    "awardsPhoto": "images/director-awards.jpg",
     "sections": [
       {"label": "대기업 협업", "items": [
         "아모레퍼시픽 '에스트라' 리제덤 공동 개발",
@@ -2127,6 +2163,7 @@ if (window.BR_CONFIG?.supabaseUrl && window.BR_CONFIG?.supabasePublishableKey) {
       <div class="pp-block" id="pp-career"><div class="pp-head"><span class="eyebrow">PROFILE</span><h2>자격 · 경력</h2></div>
         <div class="pp-cols"><ul class="pp-list">${(p.creds||[]).map(v=>`<li>${esc(v)}</li>`).join('')}</ul>
         ${(p.awards||[]).length?`<div class="pp-awards"><span class="fm-label">수상</span><ul class="pp-list">${p.awards.map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div>`:''}</div></div>
+      ${(p.records||[]).length||p.awardsPhoto?`<div class="pp-block"><div class="pp-head"><span class="eyebrow">LICENSES &amp; ACTIVITIES</span><h2>자격 · 활동</h2></div>${(p.records||[]).length?`<div class="pp-sections pp-records">${p.records.map(sec=>`<div><span class="fm-label">${esc(sec.label)}</span><ul class="pp-list">${sec.items.map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div>`).join('')}</div>`:''}${p.awardsPhoto?`<figure class="pp-awardphoto"><img src="${esc(p.awardsPhoto)}" alt="${esc(p.name)} 상장 · 자격증 · 위촉장" loading="lazy"><figcaption>상장 · 자격증 · 위촉장</figcaption></figure>`:''}</div>`:''}
       ${(p.sections||[]).length?`<div class="pp-block"><div class="pp-head"><span class="eyebrow">CAREER</span><h2>협업 · 앰배서더 · 방송</h2></div><div class="pp-sections">${p.sections.map(sec=>`<div><span class="fm-label">${esc(sec.label)}</span><ul class="pp-list">${sec.items.map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div>`).join('')}</div></div>`:''}
       ${J.length?`<div class="pp-block" id="pp-mag"><div class="pp-head"><span class="eyebrow">MAGAZINE</span><h2>매거진 · 기사</h2></div>
         <div class="journal-grid pp-journal">${J.map((j,i)=>`<button type="button" class="journal-card${i>=8?' pp-extra':''}" onclick="${j.url?`window.open('${esc(j.url)}','_blank','noopener')`:`brOpenJournal('${esc(j.id)}')`}"><span class="jc-cover"><img src="${esc(j.cover)}" alt="" loading="lazy"></span><span class="jc-meta"><em>${esc(label[j.cat]||'')}</em><span>${[j.date,j.mag].filter(Boolean).map(esc).join(' · ')}</span></span><strong>${esc(j.title)}</strong><span class="jc-lead">${esc(j.lead)}</span><span class="jc-more">${j.url?'기사 원문 보기 ↗':'지면 보기 →'}</span></button>`).join('')}</div>${J.length>8?`<button type="button" class="journal-more" onclick="this.closest('.pp-block').classList.add('show-all');this.remove()">전체 보기 (${J.length})</button>`:''}</div>`:''}
